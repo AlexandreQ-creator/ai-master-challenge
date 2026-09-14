@@ -10,6 +10,10 @@ Cenários:
   2. POST /api/atualizar regenera dashboard.html com timestamp novo
   3. POST /api/atualizar regenera o Excel quando ele não está bloqueado
   4. Rota inexistente devolve 404, não trava o servidor
+  5. POST /api/perguntar chama a IA de consulta de verdade (não mock)
+  6. POST /api/perguntar rejeita pergunta vazia (400)
+  7. POST /api/perguntar rejeita pergunta > 500 caracteres (400)
+  8. POST /api/perguntar preserva acentuação UTF-8 no round-trip JSON
 
 Uso: python harness_servidor_dashboard.py
 """
@@ -48,6 +52,10 @@ class HarnessServidorDashboard:
             self.teste_2_atualizar_dashboard()
             self.teste_3_atualizar_excel()
             self.teste_4_rota_inexistente()
+            self.teste_5_perguntar_valida()
+            self.teste_6_perguntar_vazia()
+            self.teste_7_perguntar_muito_longa()
+            self.teste_8_perguntar_acentos()
         finally:
             self.proc.terminate()
             try:
@@ -126,6 +134,57 @@ class HarnessServidorDashboard:
                      "404 recebido, servidor segue respondendo depois")
         except Exception as e:
             self._falhou("SRV-4", "Rota inexistente / robustez", str(e))
+
+    def _post_json(self, caminho, corpo):
+        data = json.dumps(corpo).encode("utf-8")
+        req = urllib.request.Request(
+            f"{BASE}{caminho}", data=data,
+            headers={"Content-Type": "application/json"}, method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return r.status, json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            return e.code, json.loads(e.read().decode("utf-8"))
+
+    def teste_5_perguntar_valida(self):
+        try:
+            status, dados = self._post_json("/api/perguntar", {"pergunta": "qual o MRR da Company_4?"})
+            assert status == 200, f"esperava 200, veio {status}"
+            assert "21,691.00" in dados["resposta"], "resposta não bate com o valor real de Company_4"
+            self._ok("SRV-5", "POST /api/perguntar chama a IA de consulta de verdade",
+                     "resposta contém o MRR real (US$ 21,691.00)")
+        except Exception as e:
+            self._falhou("SRV-5", "POST /api/perguntar resposta válida", str(e))
+
+    def teste_6_perguntar_vazia(self):
+        try:
+            status, dados = self._post_json("/api/perguntar", {"pergunta": ""})
+            assert status == 400, f"esperava 400, veio {status}"
+            assert "erro" in dados
+            self._ok("SRV-6", "POST /api/perguntar rejeita pergunta vazia", f"HTTP {status}, erro reportado")
+        except Exception as e:
+            self._falhou("SRV-6", "POST /api/perguntar rejeita pergunta vazia", str(e))
+
+    def teste_7_perguntar_muito_longa(self):
+        try:
+            status, dados = self._post_json("/api/perguntar", {"pergunta": "a" * 600})
+            assert status == 400, f"esperava 400, veio {status}"
+            self._ok("SRV-7", "POST /api/perguntar rejeita pergunta > 500 caracteres",
+                     f"HTTP {status}")
+        except Exception as e:
+            self._falhou("SRV-7", "POST /api/perguntar limite de tamanho", str(e))
+
+    def teste_8_perguntar_acentos(self):
+        try:
+            status, dados = self._post_json("/api/perguntar", {"pergunta": "por que o churn está subindo?"})
+            assert status == 200, f"esperava 200, veio {status}"
+            assert dados["pergunta"] == "por que o churn está subindo?", \
+                "acentuação corrompida no round-trip JSON UTF-8"
+            self._ok("SRV-8", "POST /api/perguntar preserva acentuação UTF-8",
+                     "pergunta com acento volta idêntica na resposta")
+        except Exception as e:
+            self._falhou("SRV-8", "POST /api/perguntar acentuação UTF-8", str(e))
 
     def relatorio(self):
         total = len(self.resultados)

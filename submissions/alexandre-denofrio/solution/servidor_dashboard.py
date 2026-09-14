@@ -18,6 +18,11 @@ O que faz:
   - GET  /api/status     -> confere se o guard de entrada aprova a base
     atual, sem reprocessar nada (usado pelo botão para mostrar o estado
     antes do clique)
+  - POST /api/perguntar  -> chama IAConsultaRavenStack().perguntar() (de
+    ia_consulta.py) e devolve a resposta. É a única forma de um usuário
+    não-técnico acessar a IA de consulta — sem este servidor, ela só roda
+    por terminal (python ia_consulta.py), o que não atende o critério "o
+    CEO consegue ler e agir".
 
 **dashboard.html continua funcionando sozinho, sem este servidor.** Ele
 detecta se está sendo servido via http:// ou aberto via file:// (checando
@@ -50,6 +55,19 @@ class ServidorReutilizavel(HTTPServer):
     allow_reuse_address = True
 
 
+_ia_consulta = None  # instanciada uma vez, no primeiro uso (lazy) — evita
+                     # recalcular compute_metrics() a cada pergunta
+
+
+def _get_ia_consulta():
+    global _ia_consulta
+    if _ia_consulta is None:
+        sys.path.insert(0, str(AQUI))
+        from ia_consulta import IAConsultaRavenStack
+        _ia_consulta = IAConsultaRavenStack()
+    return _ia_consulta
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         # Serve os arquivos a partir da raiz da submissão (onde está
@@ -71,7 +89,36 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/atualizar":
             self._atualizar()
             return
+        if parsed.path == "/api/perguntar":
+            self._perguntar()
+            return
         self.send_error(404)
+
+    def _ler_corpo_json(self) -> dict:
+        import json
+        tamanho = int(self.headers.get("Content-Length", 0))
+        if tamanho == 0:
+            return {}
+        return json.loads(self.rfile.read(tamanho).decode("utf-8"))
+
+    def _perguntar(self):
+        try:
+            corpo = self._ler_corpo_json()
+        except Exception:
+            self._json({"erro": "corpo da requisição inválido, esperava JSON"}, codigo=400)
+            return
+
+        pergunta = (corpo.get("pergunta") or "").strip()
+        if not pergunta:
+            self._json({"erro": "campo 'pergunta' vazio ou ausente"}, codigo=400)
+            return
+        if len(pergunta) > 500:
+            self._json({"erro": "pergunta muito longa (máximo 500 caracteres)"}, codigo=400)
+            return
+
+        ia = _get_ia_consulta()
+        resposta = ia.perguntar(pergunta)
+        self._json({"pergunta": pergunta, "resposta": resposta})
 
     def _json(self, corpo: dict, codigo: int = 200):
         import json

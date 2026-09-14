@@ -2,14 +2,14 @@
 HARNESS DO SERVIDOR DO DASHBOARD — sobe o processo real, bate via HTTP
 ======================================================================
 
-Testes: 4 | Passou: 4 | Falhou: 0
+Testes: 8 | Passou: 8 | Falhou: 0
 ----------------------------------------------------------------------
 
 ✅ [SRV-1] GET /api/status reflete o guard de entrada real
    PASSOU — base_valida=True
 
 ✅ [SRV-2] POST /api/atualizar regenera dashboard.html de verdade
-   PASSOU — mtime mudou de 1789427922.4914594 para 1789427937.5851393
+   PASSOU — mtime mudou de 1789428429.0340948 para 1789428446.340308
 
 ✅ [SRV-3] POST /api/atualizar regenera o Excel
    PASSOU — planilha regenerada sem aviso de bloqueio
@@ -17,7 +17,19 @@ Testes: 4 | Passou: 4 | Falhou: 0
 ✅ [SRV-4] Rota inexistente devolve 404 sem travar o servidor
    PASSOU — 404 recebido, servidor segue respondendo depois
 
+✅ [SRV-5] POST /api/perguntar chama a IA de consulta de verdade
+   PASSOU — resposta contém o MRR real (US$ 21,691.00)
+
+✅ [SRV-6] POST /api/perguntar rejeita pergunta vazia
+   PASSOU — HTTP 400, erro reportado
+
+✅ [SRV-7] POST /api/perguntar rejeita pergunta > 500 caracteres
+   PASSOU — HTTP 400
+
+✅ [SRV-8] POST /api/perguntar preserva acentuação UTF-8
+   PASSOU — pergunta com acento volta idêntica na resposta
+
 ======================================================================
-VEREDITO: 4/4 — servidor sobe, responde, atualiza os artefatos
+VEREDITO: 8/8 — servidor sobe, responde, atualiza os artefatos
 de verdade, e é robusto a rota inexistente.
 ======================================================================

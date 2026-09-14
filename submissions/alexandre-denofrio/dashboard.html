@@ -72,6 +72,28 @@
   .aha .col .row .lead { color: #fca5a5; font-weight: 700; }
   .aha .stat { font-size: 12.5px; color: #9aa0ad; }
   .aha .stat b { color: #fff; }
+  .chat-box {
+    max-height: 360px; overflow-y: auto; display: flex; flex-direction: column;
+    gap: 10px; padding: 4px 2px 10px; margin-bottom: 12px;
+  }
+  .chat-msg { max-width: 85%; padding: 10px 13px; border-radius: 10px; font-size: 13.5px; line-height: 1.55; }
+  .chat-msg.chat-user { align-self: flex-end; background: var(--ink); color: #fff; }
+  .chat-msg.chat-bot { align-self: flex-start; background: #f1f2f5; color: var(--ink); }
+  .chat-msg.chat-bot em { color: var(--muted); font-style: italic; }
+  .chat-msg.chat-bot ul { margin: 6px 0 0; padding-left: 18px; }
+  .chat-msg.chat-bot li { margin-bottom: 4px; }
+  .chat-msg.chat-erro { align-self: flex-start; background: var(--accent-soft); color: var(--accent); }
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input-row input {
+    flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px;
+    font-size: 13.5px; font-family: inherit;
+  }
+  .chat-input-row input:disabled { background: #f8f9fb; }
+  .chat-input-row button {
+    background: var(--ink); color: #fff; border: none; border-radius: 8px;
+    padding: 9px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .chat-input-row button:disabled { background: #c7cad1; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -153,8 +175,22 @@
     <p class="desc">Top 15 contas já canceladas, ordenadas por valor mensal — linhas em vermelho = top 20% concentram a maior parte do valor perdido.</p>
     <table>
       <thead><tr><th>Conta</th><th>Indústria</th><th>Plano</th><th>MRR perdido</th></tr></thead>
-      <tbody><tr class="risk"><td>Company_4</td><td>HealthTech</td><td>Enterprise</td><td>$21,691.00/mês</td></tr><tr class="risk"><td>Company_99</td><td>FinTech</td><td>Enterprise</td><td>$11,144.00/mês</td></tr><tr class="risk"><td>Company_240</td><td>FinTech</td><td>Enterprise</td><td>$10,945.00/mês</td></tr><tr><td>Company_27</td><td>HealthTech</td><td>Basic</td><td>$9,751.00/mês</td></tr><tr><td>Company_84</td><td>DevTools</td><td>Pro</td><td>$9,154.00/mês</td></tr><tr><td>Company_234</td><td>FinTech</td><td>Pro</td><td>$8,756.00/mês</td></tr><tr><td>Company_171</td><td>Cybersecurity</td><td>Pro</td><td>$7,960.00/mês</td></tr><tr><td>Company_68</td><td>FinTech</td><td>Pro</td><td>$7,164.00/mês</td></tr><tr><td>Company_115</td><td>FinTech</td><td>Enterprise</td><td>$6,766.00/mês</td></tr><tr><td>Company_42</td><td>EdTech</td><td>Pro</td><td>$6,766.00/mês</td></tr><tr><td>Company_497</td><td>DevTools</td><td>Basic</td><td>$6,567.00/mês</td></tr><tr><td>Company_140</td><td>HealthTech</td><td>Basic</td><td>$6,169.00/mês</td></tr><tr><td>Company_125</td><td>DevTools</td><td>Basic</td><td>$5,970.00/mês</td></tr><tr><td>Company_400</td><td>FinTech</td><td>Pro</td><td>$5,572.00/mês</td></tr><tr><td>Company_195</td><td>EdTech</td><td>Basic</td><td>$5,572.00/mês</td></tr></tbody>
+      <tbody><tr class="risk"><td>Company_4</td><td>HealthTech</td><td>Enterprise</td><td>$21,691.00/mês</td></tr><tr class="risk"><td>Company_99</td><td>FinTech</td><td>Enterprise</td><td>$11,144.00/mês</td></tr><tr class="risk"><td>Company_240</td><td>FinTech</td><td>Enterprise</td><td>$10,945.00/mês</td></tr><tr><td>Company_27</td><td>HealthTech</td><td>Basic</td><td>$9,751.00/mês</td></tr><tr><td>Company_84</td><td>DevTools</td><td>Pro</td><td>$9,154.00/mês</td></tr><tr><td>Company_234</td><td>FinTech</td><td>Pro</td><td>$8,756.00/mês</td></tr><tr><td>Company_171</td><td>Cybersecurity</td><td>Pro</td><td>$7,960.00/mês</td></tr><tr><td>Company_68</td><td>FinTech</td><td>Pro</td><td>$7,164.00/mês</td></tr><tr><td>Company_42</td><td>EdTech</td><td>Pro</td><td>$6,766.00/mês</td></tr><tr><td>Company_115</td><td>FinTech</td><td>Enterprise</td><td>$6,766.00/mês</td></tr><tr><td>Company_497</td><td>DevTools</td><td>Basic</td><td>$6,567.00/mês</td></tr><tr><td>Company_140</td><td>HealthTech</td><td>Basic</td><td>$6,169.00/mês</td></tr><tr><td>Company_125</td><td>DevTools</td><td>Basic</td><td>$5,970.00/mês</td></tr><tr><td>Company_195</td><td>EdTech</td><td>Basic</td><td>$5,572.00/mês</td></tr><tr><td>Company_400</td><td>FinTech</td><td>Pro</td><td>$5,572.00/mês</td></tr></tbody>
     </table>
+  </section>
+
+  <section id="chatSection">
+    <h2>Pergunte à IA de consulta</h2>
+    <p class="desc" id="chatHint">
+      Responde só sobre o que já foi analisado (causa raiz, segmentos, contas específicas, recomendações, metodologia, conformidade da submissão) — arquitetura de agentes especializados em <code>solution/arquitetura-ia-consulta.md</code>.
+    </p>
+    <div id="chatBox" class="chat-box">
+      <div class="chat-msg chat-bot">Pergunte algo, por exemplo: <em>"por que o churn está subindo?"</em>, <em>"qual o MRR da Company_4?"</em>, <em>"o que a empresa deveria fazer?"</em></div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Pergunte sobre o diagnóstico..." maxlength="500" onkeydown="if(event.key==='Enter')enviarPergunta()">
+      <button id="btnPerguntar" onclick="enviarPergunta()">Perguntar</button>
+    </div>
   </section>
 
   <footer>Relatório de diagnóstico completo, recomendações e process log em README.md. Dados: dataset Kaggle "SaaS Subscription &amp; Churn Analytics" (MIT).</footer>
@@ -284,6 +320,95 @@ async function atualizarDados() {
     msg.className = 'msg erro';
     msg.textContent = 'Não foi possível conectar ao servidor local.';
     btn.disabled = false;
+  }
+}
+
+// Chat da IA de consulta: mesma restrição do botão "Atualizar dados" —
+// só funciona via servidor_dashboard.py (POST /api/perguntar chama
+// IAConsultaRavenStack().perguntar() por trás). Um arquivo file:// não
+// tem como rodar Python no disco, então o chat fica desabilitado com uma
+// explicação em vez de tentar e falhar em silêncio.
+(function initChat() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('btnPerguntar');
+  const hint = document.getElementById('chatHint');
+  const servidoPorHttp = location.protocol === 'http:' || location.protocol === 'https:';
+
+  if (!servidoPorHttp) {
+    input.disabled = true;
+    btn.disabled = true;
+    input.placeholder = 'Desabilitado neste modo (file://)';
+    hint.innerHTML = 'Desabilitado neste modo (<code>file://</code>). Rode <code>python solution/servidor_dashboard.py</code> para habilitar, ou pergunte direto no terminal com <code>python solution/ia_consulta.py "sua pergunta"</code>.';
+  }
+})();
+
+// Parser mínimo do formato de resposta da IA (linhas "- item", "_itálico_",
+// quebra dupla de linha) -- sem biblioteca de markdown, mesma filosofia de
+// dependência mínima do resto da submissão. Escapa HTML antes de formatar,
+// para nunca injetar o que a IA (ou, no limite, o usuário) escreveu como
+// tag real -- toda entrada de rede aqui é tratada como texto, não HTML.
+function formatarRespostaIA(texto) {
+  const escapar = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const linhas = escapar(texto).split('\n');
+  let html = '';
+  let dentroDeLista = false;
+  for (const linha of linhas) {
+    if (linha.startsWith('- ')) {
+      if (!dentroDeLista) { html += '<ul>'; dentroDeLista = true; }
+      html += '<li>' + linha.slice(2) + '</li>';
+    } else {
+      if (dentroDeLista) { html += '</ul>'; dentroDeLista = false; }
+      if (linha.trim()) html += '<p style="margin:6px 0;">' + linha + '</p>';
+    }
+  }
+  if (dentroDeLista) html += '</ul>';
+  // itálico "_texto_" -> <em>, só depois da lista pronta (evita conflito com "-")
+  return html.replace(/_([^_]+)_/g, '<em>$1</em>');
+}
+
+async function enviarPergunta() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('btnPerguntar');
+  const box = document.getElementById('chatBox');
+  const pergunta = input.value.trim();
+  if (!pergunta) return;
+
+  const msgUser = document.createElement('div');
+  msgUser.className = 'chat-msg chat-user';
+  msgUser.textContent = pergunta;
+  box.appendChild(msgUser);
+
+  input.value = '';
+  input.disabled = true;
+  btn.disabled = true;
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const resp = await fetch('/api/perguntar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pergunta }),
+    });
+    const dados = await resp.json();
+    const msgBot = document.createElement('div');
+    if (resp.ok) {
+      msgBot.className = 'chat-msg chat-bot';
+      msgBot.innerHTML = formatarRespostaIA(dados.resposta);
+    } else {
+      msgBot.className = 'chat-msg chat-erro';
+      msgBot.textContent = dados.erro || 'Erro ao consultar a IA.';
+    }
+    box.appendChild(msgBot);
+  } catch (e) {
+    const msgErro = document.createElement('div');
+    msgErro.className = 'chat-msg chat-erro';
+    msgErro.textContent = 'Não foi possível conectar ao servidor local.';
+    box.appendChild(msgErro);
+  } finally {
+    input.disabled = false;
+    btn.disabled = false;
+    input.focus();
+    box.scrollTop = box.scrollHeight;
   }
 }
 </script>

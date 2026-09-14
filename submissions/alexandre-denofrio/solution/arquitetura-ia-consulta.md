@@ -17,13 +17,22 @@ verificáveis?") fica mais difícil de garantir quando a resposta não vem de um
 já auditado. Se a v1 se provar útil, "consulta nova sob demanda" é a extensão natural
 de v2 — não construída agora.
 
-**Implementado e testado em `solution/ia_consulta.py`** — chat de terminal, sem
-dependência de chave de API (roteamento determinístico por palavras-chave em PT-BR,
-não LLM externo; decisão deliberada para manter a mesma dependência mínima já usada
-no resto da submissão e garantir que qualquer avaliador rode sem configurar
-credencial). Uso: `python ia_consulta.py` (chat interativo), `python ia_consulta.py
-"pergunta"` (modo não-interativo), `python ia_consulta.py --self-test` (roda 7
-perguntas de exemplo cobrindo os 5 domínios + 2 recusas de escopo).
+**Implementado e testado em `solution/ia_consulta.py`**, sem dependência de chave de
+API (roteamento determinístico por palavras-chave em PT-BR, não LLM externo; decisão
+deliberada para manter a mesma dependência mínima já usada no resto da submissão e
+garantir que qualquer avaliador rode sem configurar credencial). Dois pontos de
+entrada para a mesma classe `IAConsultaRavenStack`:
+
+- **Terminal** — `python ia_consulta.py` (chat interativo), `python ia_consulta.py
+  "pergunta"` (modo não-interativo), `python ia_consulta.py --self-test` (roda 7
+  perguntas de exemplo cobrindo os 5 domínios originais + 2 recusas de escopo).
+- **Navegador, embutido no `dashboard.html`** — uma caixa de chat que fala com a IA
+  via `POST /api/perguntar` em `solution/servidor_dashboard.py`. Este é o ponto de
+  entrada que de fato atende o critério "o CEO não-técnico consegue ler e agir": um
+  terminal não é acessível para esse público, e a IA de consulta ficaria construída
+  mas inutilizável por quem ela foi desenhada para atender sem essa integração. A
+  instância da IA é criada uma vez (`_get_ia_consulta()`, lazy) e reaproveitada entre
+  perguntas, para não recalcular `compute_metrics()` a cada mensagem do chat.
 
 ---
 
