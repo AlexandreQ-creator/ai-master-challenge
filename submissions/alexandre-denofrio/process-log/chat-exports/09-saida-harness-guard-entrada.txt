@@ -1,0 +1,22 @@
+======================================================================
+HARNESS DO GUARD DE ENTRADA — 3 tipos de erro de usuário + controle
+======================================================================
+
+Testes executados: 4 | Passou: 4 | Falhou: 0 | Tempo: 0.612s
+----------------------------------------------------------------------
+
+✅ [GUARD-0] Controle: dado correto passa sem erro
+   PASSOU — 0 erros, como esperado
+
+✅ [GUARD-1] Base incompatível: coluna obrigatória ausente
+   PASSOU — detectado corretamente: colunas esperadas ausentes: ['industry'] — isto costuma indicar que o arquivo ca...
+
+✅ [GUARD-2] Valor traduzido/idioma errado (plan_tier)
+   PASSOU — 2/2 traduções detectadas, com sugestão do termo original
+
+✅ [GUARD-3] Terminologia do domínio incorreta (reason_code)
+   PASSOU — detectado corretamente: valor 'cancelled' fora do vocabulário fechado
+
+======================================================================
+VEREDITO: 4/4 — guard de entrada pega os 3 tipos de erro de usuário e não gera falso-positivo em dado correto.
+======================================================================

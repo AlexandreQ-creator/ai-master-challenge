@@ -1,0 +1,7 @@
+======================================================================
+GUARD DE ENTRADA — validação dos 5 CSVs antes de processar
+======================================================================
+
+✅ Todos os 5 arquivos batem com o schema, vocabulário e formato de ID esperados.
+   Seguro prosseguir para analise.py / gerar_excel.py / gerar_dashboard.py.
+======================================================================

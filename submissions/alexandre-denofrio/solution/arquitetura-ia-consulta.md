@@ -350,6 +350,39 @@ Os dois resultados são salvos (`process-log/auditoria-final.json`,
 subagente (Auditoria/Conformidade) sem re-rodar nenhum harness a cada pergunta, mesma
 disciplina de "calcular uma vez, consumir depois" já aplicada em `compute_metrics()`.
 
+### `guard_entrada_dados.py` — a base carregada é a certa?
+
+Um terceiro tipo de checagem, complementar aos dois harnesses acima: não audita o que
+já foi gerado, valida o que está prestes a ser processado. Roda automaticamente no
+início de `analise.py` e de `compute_metrics()` (então também protege
+`gerar_excel.py`, `gerar_dashboard.py` e `ia_consulta.py`, que dependem dela), e pega
+três classes de erro que um usuário real pode cometer ao trocar a base de dados:
+
+1. **Base diferente/incompatível** — coluna obrigatória faltando ou extra indica CSV
+   de outra fonte, não o dataset RavenStack esperado.
+2. **Valor traduzido/idioma errado** — o dataset é inteiramente em inglês
+   (`plan_tier=Basic/Pro/Enterprise`, `referral_source=ads/event/organic/...`); um
+   valor como "Básico" sinaliza mistura com uma versão traduzida da base.
+3. **Terminologia do domínio incorreta** — colunas de vocabulário fechado
+   (`reason_code`, `priority`) comparadas contra o conjunto de valores válidos real,
+   extraído dos CSVs antes de escrever qualquer regra (não presumido).
+
+Testado com `harness_guard_entrada.py` — 4 cenários (os 3 erros acima, simulados numa
+cópia temporária isolada dos dados reais, mais um controle de dado correto).
+
+**Achado real ao formalizar este teste:** os 4 testes internos passavam, mas o script
+terminava com exit code 1 — a função `run()` chamava `relatorio_final()` sem
+`return`, então sempre devolvia `None`. Corrigido, e a checagem revelou o mesmo bug
+nos outros dois harnesses desta submissão (`harness_auditoria_submissao.py`,
+`harness_consistencia_artefatos.py`) — mascarado até então porque a verificação
+manual olhava só o texto impresso, nunca o exit code isoladamente. Os três foram
+corrigidos. Relevante porque um exit code sempre 1 quebraria qualquer hook de
+pre-commit ou CI que dependesse desses harnesses, mesmo com 100% dos testes
+passando — a mesma classe de falha silenciosa do bug de dtype no `mestre_dados_engine.py`
+(seção "Segurança da informação" acima): a guarda existia, o teste certo existia, e
+ainda assim o problema só apareceu quando alguém checou o sinal certo, não só a saída
+de texto.
+
 ---
 
 ## O que fica fora desta v1 (registrado, não esquecido)

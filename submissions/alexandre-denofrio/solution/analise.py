@@ -8,11 +8,22 @@ relatório.
 """
 
 import csv
+import sys
 from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
 
+from guard_entrada_dados import validar_entrada
+
 DATA = "../data"
+
+_ok, _erros = validar_entrada(pasta_data=DATA, verbose=False)
+if not _ok:
+    print("ERRO: a base em data/ não passou na validação de entrada.")
+    print("Rode `python guard_entrada_dados.py` para o relatório completo antes de continuar.\n")
+    for _e in _erros:
+        print(f"  {_e}")
+    sys.exit(1)
 
 
 def load(fname):

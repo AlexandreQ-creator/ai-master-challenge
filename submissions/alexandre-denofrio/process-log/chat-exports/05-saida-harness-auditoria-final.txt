@@ -4,7 +4,7 @@ HARNESS DE AUDITORIA — Challenge 001, contra o brief oficial do GitHub
 
 Testes executados: 13
 Passou: 13 | Falhou: 0 | Não verificável por script: 0
-Tempo: 0.006s
+Tempo: 0.007s
 ----------------------------------------------------------------------
 
 ✅ [C1] Cruzamento entre as 5 tabelas
@@ -41,7 +41,7 @@ Tempo: 0.006s
    PASSOU — README tem seção dedicada a pistas descartadas por não se sustentarem
 
 ✅ [OBRIG-1] Process log obrigatório (com evidência física)
-   PASSOU — seção Process Log no README + 8 arquivos em process-log/chat-exports/
+   PASSOU — seção Process Log no README + 10 arquivos em process-log/chat-exports/
 
 ✅ [OBRIG-2] Estrutura de pasta conforme CONTRIBUTING.md
    PASSOU — README.md, solution/, process-log/ presentes

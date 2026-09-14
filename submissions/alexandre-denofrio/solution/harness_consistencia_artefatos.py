@@ -58,7 +58,7 @@ class HarnessConsistencia:
         self.teste_6_pct_early_churn_no_dashboard()
         self.teste_7_top_segmento_consistente_excel_dashboard()
 
-        self.relatorio_final()
+        return self.relatorio_final()
 
     def _mrr_company4_fonte(self):
         for conta in self.fonte["churned_mrr"]:

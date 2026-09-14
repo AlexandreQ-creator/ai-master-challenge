@@ -4,7 +4,7 @@ HARNESS DE CONSISTÊNCIA — extração → Excel → dashboard → IA de consul
 
 Fonte única (compute_metrics()): MRR Company_4=$21,691.00, n_churned=110, churn_rate=22.0%, pct_early_churn=67.9%
 
-Testes executados: 7 | Passou: 7 | Falhou: 0 | Tempo: 2.104s
+Testes executados: 7 | Passou: 7 | Falhou: 0 | Tempo: 2.196s
 ----------------------------------------------------------------------
 
 ✅ [CONS-1] MRR Company_4: fonte vs. Excel

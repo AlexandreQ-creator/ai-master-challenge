@@ -1,6 +1,6 @@
 # RavenStack — Diagnóstico de Churn
 
-_Gerado automaticamente em 14/09/2026 14:30 a partir de `data/*.csv` — arquivo reproduzível, rode `gerar-relatorio.bat` de novo quando os dados mudarem._
+_Gerado automaticamente em 14/09/2026 16:13 a partir de `data/*.csv` — arquivo reproduzível, rode `gerar-relatorio.bat` de novo quando os dados mudarem._
 
 ## Resumo executivo
 

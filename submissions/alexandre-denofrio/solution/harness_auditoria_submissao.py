@@ -53,7 +53,7 @@ class AuditoriaSubmissao:
         self.obrigatorio_process_log()
         self.obrigatorio_estrutura_pasta()
 
-        self.relatorio_final()
+        return self.relatorio_final()
 
     def _ok(self, id_, nome, detalhe):
         self.resultados.append({"id": id_, "nome": nome, "status": "PASSOU", "detalhe": detalhe})

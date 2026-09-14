@@ -22,6 +22,7 @@ mesmo número.
 """
 
 import csv
+import sys
 from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
@@ -29,6 +30,8 @@ from statistics import mean, median
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
+
+from guard_entrada_dados import validar_entrada
 
 DATA = "../data"
 OUTPUT_XLSX = "../RavenStack_Diagnostico_Churn.xlsx"
@@ -67,6 +70,14 @@ def to_date(v):
 # ---------------------------------------------------------------------------
 
 def compute_metrics():
+    ok, erros = validar_entrada(pasta_data=DATA, verbose=False)
+    if not ok:
+        print("ERRO: a base em data/ não passou na validação de entrada.")
+        print("Rode `python guard_entrada_dados.py` para o relatório completo antes de continuar.\n")
+        for e in erros:
+            print(f"  {e}")
+        sys.exit(1)
+
     accounts = load("ravenstack_accounts.csv")
     subs = load("ravenstack_subscriptions.csv")
     usage = load("ravenstack_feature_usage.csv")

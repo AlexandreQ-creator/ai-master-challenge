@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-14T16:07:33.376845",
+  "gerado_em": "2026-09-14T16:16:42.709663",
   "fonte_do_brief": "challenges/data-001-churn/README.md (commit 4aed364 do repo oficial)",
   "resultados": [
     {
@@ -72,7 +72,7 @@
       "id": "OBRIG-1",
       "nome": "Process log obrigatório (com evidência física)",
       "status": "PASSOU",
-      "detalhe": "seção Process Log no README + 8 arquivos em process-log/chat-exports/"
+      "detalhe": "seção Process Log no README + 10 arquivos em process-log/chat-exports/"
     },
     {
       "id": "OBRIG-2",
