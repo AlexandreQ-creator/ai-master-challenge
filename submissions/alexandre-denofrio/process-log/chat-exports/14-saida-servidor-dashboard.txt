@@ -1,0 +1,5 @@
+=== GET /api/status ===
+{"base_valida": true, "erros": []}
+
+=== POST /api/atualizar (Excel fechado, caminho de sucesso) ===
+{"sucesso": true, "dashboard": "Dashboard gerado: ../dashboard.html", "excel": "Planilha gerada: ../RavenStack_Diagnostico_Churn.xlsx\nAbas: ['Resumo Executivo', 'Teste CEO', 'Contas em Risco (MRR)', 'Segmentação de Risco', 'Dados Brutos — Contas']\nMarkdown gerado: ../RavenStack_Diagnostico_Churn.md", "excel_aviso": null}

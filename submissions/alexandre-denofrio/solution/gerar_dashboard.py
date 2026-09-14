@@ -11,6 +11,8 @@ from collections import defaultdict
 from datetime import datetime
 from statistics import mean
 
+from gap_analysis_feedback import analisar as analisar_feedback
+
 DATA = "../data"
 OUTPUT = "../dashboard.html"
 
@@ -139,6 +141,12 @@ def build_data():
     out["n_churned"] = len(churned_set)
     out["churn_rate"] = round(len(churned_set) / len(accounts) * 100, 1)
 
+    # O momento Aha! (achado 7 do README): reason_code é estatisticamente
+    # independente do que o cliente escreveu em feedback_text. Reaproveita
+    # a mesma função de análise de gap_analysis_feedback.py — não duplica
+    # o cálculo do qui-quadrado, só consome o resultado já validado.
+    out["achado_reason_code"] = analisar_feedback()
+
     return out
 
 
@@ -183,6 +191,39 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .bar-val {{ width: 50px; text-align: right; font-variant-numeric: tabular-nums; }}
   footer {{ color: var(--muted); font-size: 12px; text-align: center; margin-top: 24px; }}
   canvas {{ max-width: 100%; }}
+  .update-bar {{ display: flex; align-items: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }}
+  .update-bar button {{
+    background: var(--ink); color: #fff; border: none; border-radius: 8px;
+    padding: 9px 16px; font-size: 13px; cursor: pointer; font-weight: 600;
+  }}
+  .update-bar button:disabled {{ background: #c7cad1; cursor: not-allowed; }}
+  .update-bar .hint {{ font-size: 12px; color: var(--muted); }}
+  .update-bar .hint code {{ background: #f1f2f5; padding: 1px 5px; border-radius: 4px; }}
+  .update-bar .msg {{ font-size: 13px; font-weight: 600; }}
+  .update-bar .msg.ok {{ color: var(--good); }}
+  .update-bar .msg.erro {{ color: var(--accent); }}
+  .aha {{
+    background: linear-gradient(135deg, #1a1d29 0%, #2d1520 100%);
+    color: #fff; border-radius: 14px; padding: 26px 28px; margin-bottom: 22px;
+    border: 1px solid #3a2530;
+  }}
+  .aha .tag {{
+    display: inline-block; background: var(--accent); color: #fff; font-size: 11px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
+  }}
+  .aha h2 {{ font-size: 19px; margin: 0 0 10px; color: #fff; }}
+  .aha p {{ font-size: 13.5px; line-height: 1.6; color: #d8dae0; margin: 0 0 14px; }}
+  .aha p:last-child {{ margin-bottom: 0; }}
+  .aha .compare {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }}
+  @media (max-width: 700px) {{ .aha .compare {{ grid-template-columns: 1fr; }} }}
+  .aha .col {{ background: rgba(255,255,255,.06); border-radius: 10px; padding: 14px 16px; }}
+  .aha .col .col-title {{ font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #9aa0ad; margin-bottom: 8px; }}
+  .aha .col .row {{ display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,.08); }}
+  .aha .col .row:last-child {{ border-bottom: none; }}
+  .aha .col .row .lead {{ color: #fca5a5; font-weight: 700; }}
+  .aha .stat {{ font-size: 12.5px; color: #9aa0ad; }}
+  .aha .stat b {{ color: #fff; }}
 </style>
 </head>
 <body>
@@ -190,11 +231,34 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <h1>RavenStack — Diagnóstico de Churn</h1>
   <p class="subtitle">Gerado automaticamente a partir de data/*.csv — Challenge 001, AI Master G4 Educação. Ver README.md para a análise completa e recomendações.</p>
 
+  <div class="update-bar">
+    <button id="btnAtualizar" onclick="atualizarDados()">Atualizar dados</button>
+    <span class="hint" id="hintAtualizar">Reprocessa os CSVs de <code>data/</code> e regrava este dashboard <b>e</b> a planilha Excel a partir da mesma fonte — prova que os dois nunca divergem.</span>
+    <span class="msg" id="msgAtualizar"></span>
+  </div>
+
   <div class="kpi-row">
     <div class="kpi"><div class="label">Contas totais</div><div class="value">{n_accounts}</div></div>
     <div class="kpi"><div class="label">Contas com churn</div><div class="value risk">{n_churned} ({churn_rate}%)</div></div>
     <div class="kpi"><div class="label">MRR perdido</div><div class="value risk">${total_mrr_lost:,.0f}/mês</div></div>
     <div class="kpi"><div class="label">Churn em &lt;90 dias</div><div class="value risk">{pct_early_churn}%</div></div>
+  </div>
+
+  <div class="aha">
+    <span class="tag">Momento Aha</span>
+    <h2>O motivo de cancelamento que a RavenStack enxerga não é o motivo real</h2>
+    <p>A tabela de eventos de churn tem duas colunas sobre o motivo: <code>reason_code</code> (o que o sistema registrou) e <code>feedback_text</code> (o que o cliente escreveu). Cruzando as duas, elas são <strong>estatisticamente independentes</strong> — um cliente que escreveu "too expensive" foi classificado como <code>pricing</code> em apenas {aha_concordancia}% dos casos, contra {aha_acaso}% que se esperaria sorteando ao acaso entre os 6 códigos (χ² = {aha_chi2}, gl = {aha_gl}).</p>
+    <div class="compare">
+      <div class="col">
+        <div class="col-title">O que a empresa enxerga (reason_code)</div>
+        {aha_reason_code_rows}
+      </div>
+      <div class="col">
+        <div class="col-title">O que o cliente de fato disse (feedback_text)</div>
+        {aha_feedback_rows}
+      </div>
+    </div>
+    <p class="stat">{aha_pct_com_feedback}% dos {aha_n_eventos} eventos de churn têm <code>feedback_text</code> preenchido — <b>preço lidera com {aha_top_pct}%</b>, o dobro do que o <code>reason_code</code> sugere. Detalhe completo e a correção metodológica (o achado não é "um campo quebrado", é dataset sem estrutura categórica — ver auditor genérico) no README, achado 7.</p>
   </div>
 
   <section>
@@ -323,6 +387,57 @@ drawLineChart('churnChart', churnLabels, churnValues, '#dc2626');
 const tenureLabels = Object.keys(tenureData);
 const tenureValues = Object.values(tenureData);
 drawBarChart('tenureChart', tenureLabels, tenureValues, '#dc2626');
+
+// Botão "Atualizar dados": só funciona quando servido por servidor_dashboard.py
+// (http://), porque um arquivo aberto via file:// não pode disparar um
+// processo Python no disco -- o navegador bloqueia por segurança. Detecta
+// o protocolo e desabilita com uma explicação em vez de falhar em silêncio
+// ou mostrar um botão morto.
+(function initBotaoAtualizar() {{
+  const btn = document.getElementById('btnAtualizar');
+  const hint = document.getElementById('hintAtualizar');
+  const msg = document.getElementById('msgAtualizar');
+  const servidoPorHttp = location.protocol === 'http:' || location.protocol === 'https:';
+
+  if (!servidoPorHttp) {{
+    btn.disabled = true;
+    hint.innerHTML = 'Desabilitado neste modo (<code>file://</code>). Rode <code>python solution/servidor_dashboard.py</code> para habilitar, ou <code>gerar-relatorio.bat</code> e reabra este arquivo.';
+    return;
+  }}
+  hint.textContent = 'Reprocessa os CSVs de data/ e regrava este dashboard e a planilha Excel a partir da mesma fonte — prova que os dois nunca divergem.';
+}})();
+
+async function atualizarDados() {{
+  const btn = document.getElementById('btnAtualizar');
+  const msg = document.getElementById('msgAtualizar');
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Atualizando...';
+  try {{
+    const resp = await fetch('/api/atualizar', {{ method: 'POST' }});
+    const dados = await resp.json();
+    if (dados.sucesso) {{
+      if (dados.excel_aviso) {{
+        msg.className = 'msg erro';
+        msg.textContent = dados.excel_aviso;
+        btn.disabled = false;
+      }} else {{
+        msg.className = 'msg ok';
+        msg.textContent = 'Dashboard e RavenStack_Diagnostico_Churn.xlsx atualizados a partir da mesma fonte. Recarregando...';
+        setTimeout(() => location.reload(), 1100);
+      }}
+    }} else {{
+      msg.className = 'msg erro';
+      const detalhe = dados.erros ? dados.erros.join('; ') : (dados.saida || 'erro desconhecido');
+      msg.textContent = 'Falhou (' + dados.etapa + '): ' + detalhe;
+      btn.disabled = false;
+    }}
+  }} catch (e) {{
+    msg.className = 'msg erro';
+    msg.textContent = 'Não foi possível conectar ao servidor local.';
+    btn.disabled = false;
+  }}
+}}
 </script>
 </body>
 </html>
@@ -342,6 +457,20 @@ def render(data):
         acc_rows += f'<tr{cls}><td>{acc["name"]}</td><td>{acc["industry"]}</td><td>{acc["plan"]}</td><td>${acc["mrr"]:,.2f}/mês</td></tr>'
 
     sat = data["satisfaction"]
+
+    aha = data["achado_reason_code"]
+    rc_rows = ""
+    for cod, n in sorted(aha["distribuicao_reason_code"].items(), key=lambda x: -x[1]):
+        pct = n / aha["n_eventos_churn"] * 100
+        rc_rows += f'<div class="row"><span>{cod}</span><span>{pct:.1f}%</span></div>'
+    fb_rows = ""
+    top_texto, top_n = max(aha["distribuicao_real_feedback"].items(), key=lambda x: x[1])
+    for texto, n in sorted(aha["distribuicao_real_feedback"].items(), key=lambda x: -x[1]):
+        pct = n / aha["n_com_feedback"] * 100
+        cls = ' class="lead"' if texto == top_texto else ""
+        fb_rows += f'<div class="row"><span{cls}>{texto}</span><span{cls}>{pct:.1f}%</span></div>'
+    aha_top_pct = round(top_n / aha["n_com_feedback"] * 100, 1)
+
     html = HTML_TEMPLATE.format(
         n_accounts=data["n_accounts"],
         n_churned=data["n_churned"],
@@ -359,6 +488,15 @@ def render(data):
         churn_json=json.dumps(data["churn_by_month"]),
         cum_accounts_json=json.dumps(data["cumulative_accounts"]),
         tenure_json=json.dumps(data["tenure_buckets"]),
+        aha_concordancia=aha["concordancia_pct"],
+        aha_acaso=aha["concordancia_acaso_pct"],
+        aha_chi2=aha["chi2"],
+        aha_gl=aha["graus_liberdade"],
+        aha_reason_code_rows=rc_rows,
+        aha_feedback_rows=fb_rows,
+        aha_pct_com_feedback=aha["pct_com_feedback"],
+        aha_n_eventos=aha["n_eventos_churn"],
+        aha_top_pct=aha_top_pct,
     )
     return html
 

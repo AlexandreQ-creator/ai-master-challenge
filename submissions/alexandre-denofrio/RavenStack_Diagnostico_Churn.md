@@ -1,6 +1,6 @@
 # RavenStack — Diagnóstico de Churn
 
-_Gerado automaticamente em 14/09/2026 16:13 a partir de `data/*.csv` — arquivo reproduzível, rode `gerar-relatorio.bat` de novo quando os dados mudarem._
+_Gerado automaticamente em 14/09/2026 20:19 a partir de `data/*.csv` — arquivo reproduzível, rode `gerar-relatorio.bat` de novo quando os dados mudarem._
 
 ## Resumo executivo
 
@@ -94,13 +94,13 @@ Top 15 de 110 contas canceladas, ordenadas por valor mensal. As top 22 contas (2
 | Company_234 | FinTech | Pro | organic | US$ 8,756.00/mês |
 | Company_171 | Cybersecurity | Pro | event | US$ 7,960.00/mês |
 | Company_68 | FinTech | Pro | ads | US$ 7,164.00/mês |
-| Company_115 | FinTech | Enterprise | partner | US$ 6,766.00/mês |
 | Company_42 | EdTech | Pro | organic | US$ 6,766.00/mês |
+| Company_115 | FinTech | Enterprise | partner | US$ 6,766.00/mês |
 | Company_497 | DevTools | Basic | organic | US$ 6,567.00/mês |
 | Company_140 | HealthTech | Basic | partner | US$ 6,169.00/mês |
 | Company_125 | DevTools | Basic | organic | US$ 5,970.00/mês |
-| Company_195 | EdTech | Basic | other | US$ 5,572.00/mês |
 | Company_400 | FinTech | Pro | other | US$ 5,572.00/mês |
+| Company_195 | EdTech | Basic | other | US$ 5,572.00/mês |
 
 ---
 

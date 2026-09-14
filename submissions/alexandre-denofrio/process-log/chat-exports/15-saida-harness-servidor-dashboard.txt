@@ -1,0 +1,23 @@
+======================================================================
+HARNESS DO SERVIDOR DO DASHBOARD — sobe o processo real, bate via HTTP
+======================================================================
+
+Testes: 4 | Passou: 4 | Falhou: 0
+----------------------------------------------------------------------
+
+✅ [SRV-1] GET /api/status reflete o guard de entrada real
+   PASSOU — base_valida=True
+
+✅ [SRV-2] POST /api/atualizar regenera dashboard.html de verdade
+   PASSOU — mtime mudou de 1789427922.4914594 para 1789427937.5851393
+
+✅ [SRV-3] POST /api/atualizar regenera o Excel
+   PASSOU — planilha regenerada sem aviso de bloqueio
+
+✅ [SRV-4] Rota inexistente devolve 404 sem travar o servidor
+   PASSOU — 404 recebido, servidor segue respondendo depois
+
+======================================================================
+VEREDITO: 4/4 — servidor sobe, responde, atualiza os artefatos
+de verdade, e é robusto a rota inexistente.
+======================================================================
