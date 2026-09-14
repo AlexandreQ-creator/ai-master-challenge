@@ -1,0 +1,59 @@
+======================================================================
+SELF-TEST — 7 perguntas cobrindo os 5 domínios + 2 recusas de escopo
+======================================================================
+
+> Por que o churn está subindo?
+- Achado 1: uso por assinatura está achatado (~11,0-11,3/mês) desde jan/2023, sem tendência de alta em nenhuma indústria — 'uso cresceu' não é causa nem sinal de alerta.
+- Achado 2: satisfação média é praticamente igual entre contas que cancelaram (4,01) e as que ficaram (3,97), com só 58,8% de cobertura — não é preditiva.
+- Achado 3: 67,9% do churn acontece nos primeiros 90 dias (mediana 42 dias) — sinal real é tenure curto, não uso ou satisfação.
+- Achado 6: tempo de resposta/resolução de suporte é praticamente idêntico entre churned e ativos — suporte não é causa operacional real, mesmo aparecendo em 17,3% dos reason_code declarados pelo cliente.
+
+_Fonte: README.md, achados 1/2/3/6; analise.py seções 3, 4, 8_
+
+_(auditado: não afirmar suporte, satisfação ou uso como causa — dados mostram o oposto)_
+----------------------------------------------------------------------
+
+> Quais segmentos estão mais em risco?
+- DevTools / event: 10/23 contas churned (43.5%)
+- DevTools / ads: 10/26 contas churned (38.5%)
+- HealthTech / partner: 5/14 contas churned (35.7%)
+- FinTech / ads: 7/22 contas churned (31.8%)
+- HealthTech / event: 5/16 contas churned (31.2%)
+
+_Fonte: README.md achado 4; gerar_excel.py compute_metrics()['seg_rows']_
+----------------------------------------------------------------------
+
+> Qual o MRR da Company_4?
+- Company_4 (HealthTech, plano Enterprise, canal event): MRR perdido US$ 21,691.00/mês
+
+_Fonte: gerar_excel.py compute_metrics()['churned_mrr']_
+----------------------------------------------------------------------
+
+> O que a empresa deveria fazer?
+- 1. Redesenhar onboarding dos primeiros 90 dias (checkpoints dias 14/30/60) — impacto: reduzir 25% do churn early-stage preserva ~19 contas/trimestre
+- 2. Qualificar ICP antes de comprar mídia para DevTools via event/ads — impacto: esses canais cancelam 4-8x mais que a média nessa indústria
+- 3. Cofre de retenção para as ~22 contas de maior MRR em risco — impacto: 62,1% do valor perdido concentrado nesse grupo pequeno
+- 4. Parar de usar satisfaction_score isolado como sinal de risco — impacto: cobertura de 58,8% com viés de não-resposta, não discrimina churn
+- 5. Investigar por que reason_code não converge (15-19% cada) — impacto: sugere racionalização pós-hoc, não causa raiz real
+
+_Fonte: README.md, seção Recomendações_
+
+_(auditado: recomendações já priorizadas na fonte — não reordenar por conta própria)_
+----------------------------------------------------------------------
+
+> Como vocês chegaram nessas conclusões? Dá pra confiar?
+- Dados: 5 tabelas Kaggle (accounts, subscriptions, feature_usage, support_tickets, churn_events), licença MIT.
+- Limitação: nomes de feature (feature_1...feature_40) são anônimos, sem dicionário de dados oficial.
+- Limitação: 'conta churned' usa accounts.churn_flag — 175 contas têm mais de um evento de churn/reativação, tratadas de forma simplificada.
+- Nenhum modelo preditivo foi construído — causa raiz é estrutural (onboarding/fit), não comportamental.
+
+_Fonte: README.md, seção Limitações_
+----------------------------------------------------------------------
+
+> Qual vai ser o churn em 2028?
+Fora do escopo desta IA de consulta: previsão para anos futuros — não há modelo preditivo nesta submissão (ver Limitações do README).
+----------------------------------------------------------------------
+
+> E se eu filtrar só contas Enterprise, o que acontece?
+Fora do escopo desta IA de consulta: análise nova sob demanda — fora do escopo v1 (ver 'Objetivo e escopo' em arquitetura-ia-consulta.md).
+----------------------------------------------------------------------

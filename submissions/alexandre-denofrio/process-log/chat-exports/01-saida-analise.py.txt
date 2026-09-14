@@ -1,0 +1,156 @@
+======================================================================
+1. VISÃO GERAL
+======================================================================
+Contas: 500
+Contas com churn_flag=True: 110
+Assinaturas: 5000
+Assinaturas com churn_flag=True: 486
+Eventos de churn: 600 (contas distintas: 352)
+Eventos que são reativação prévia (is_reactivation=True): 61
+Contas com MAIS DE UM evento de churn (churn->reativação->churn de novo): 175
+
+======================================================================
+2. REASON CODE — distribuição bruta
+======================================================================
+  features         114 eventos  ( 19.0%)  refund médio $  16.72
+  support          104 eventos  ( 17.3%)  refund médio $  11.73
+  budget           104 eventos  ( 17.3%)  refund médio $  12.00
+  unknown           95 eventos  ( 15.8%)  refund médio $  18.34
+  competitor        92 eventos  ( 15.3%)  refund médio $  13.08
+  pricing           91 eventos  ( 15.2%)  refund médio $  14.65
+
+======================================================================
+3. CEO PARADOX — 'uso cresceu' é verdade para todo mundo?
+======================================================================
+Assinaturas churned com dados de uso: 483 / 486
+Assinaturas ativas com dados de uso:  4484 / 4514
+Uso total médio (churned):      49.3   mediana:     48.0
+Uso total médio (ativas):       50.6   mediana:     48.0
+Taxa de erro média (churned):   5.60%
+Taxa de erro média (ativas):    5.85%
+Nº médio de features distintas usadas (churned):  4.63
+Nº médio de features distintas usadas (ativas):   4.74
+
+======================================================================
+4. SUPORTE — tickets de quem churnou vs quem ficou
+======================================================================
+Contas churned: 110  | Contas ativas: 390
+Tickets/conta (churned): 3.93  | (ativas): 4.02
+Satisfação média (churned): 4.0115384615384615  (n=260)
+Satisfação média (ativas):  3.9726775956284155  (n=915)
+% escalados (churned): 5.6%  | (ativas): 4.5%
+Tempo médio de 1ª resposta (churned): 84.8 min | (ativas): 89.5 min
+Tempo médio de resolução (churned): 35.7 h | (ativas): 35.9 h
+
+COBERTURA do satisfaction_score: 1175/2000 tickets (58.8%) têm nota preenchida.
+
+======================================================================
+5. SEGMENTAÇÃO — churn por plano, indústria, canal, trial
+======================================================================
+-- por plan_tier --
+  Basic           total= 168  churned=  37  taxa= 22.0%
+  Enterprise      total= 154  churned=  34  taxa= 22.1%
+  Pro             total= 178  churned=  39  taxa= 21.9%
+-- por industry --
+  EdTech          total=  79  churned=  13  taxa= 16.5%
+  FinTech         total= 112  churned=  25  taxa= 22.3%
+  DevTools        total= 113  churned=  35  taxa= 31.0%
+  HealthTech      total=  96  churned=  21  taxa= 21.9%
+  Cybersecurity   total= 100  churned=  16  taxa= 16.0%
+-- por referral_source --
+  partner         total=  89  churned=  13  taxa= 14.6%
+  other           total= 103  churned=  25  taxa= 24.3%
+  organic         total= 114  churned=  20  taxa= 17.5%
+  event           total=  96  churned=  29  taxa= 30.2%
+  ads             total=  98  churned=  23  taxa= 23.5%
+-- por is_trial --
+  False           total= 403  churned=  85  taxa= 21.1%
+  True            total=  97  churned=  25  taxa= 25.8%
+-- por country --
+  US              total= 291  churned=  68  taxa= 23.4%
+  IN              total=  49  churned=  10  taxa= 20.4%
+  UK              total=  58  churned=  11  taxa= 19.0%
+  CA              total=  23  churned=   4  taxa= 17.4%
+  DE              total=  25  churned=   8  taxa= 32.0%
+  AU              total=  32  churned=   4  taxa= 12.5%
+  FR              total=  22  churned=   5  taxa= 22.7%
+
+======================================================================
+6. VALOR EM RISCO — MRR/ARR por conta churned, quem pesa mais
+======================================================================
+MRR total em contas churned (assinatura mais recente): $255,442.00/mês
+ARR equivalente: $3,065,304.00/ano
+
+Top 15 contas churned por MRR perdido:
+  Company_4       (Enterprise)  $21,691.00/mês  [A-ce550d]
+  Company_99      (Enterprise)  $11,144.00/mês  [A-503d5a]
+  Company_240     (Enterprise)  $10,945.00/mês  [A-e693b6]
+  Company_27      (Basic     )  $9,751.00/mês  [A-35083d]
+  Company_84      (Pro       )  $9,154.00/mês  [A-271f46]
+  Company_234     (Pro       )  $8,756.00/mês  [A-e89151]
+  Company_171     (Pro       )  $7,960.00/mês  [A-9779ad]
+  Company_68      (Pro       )  $7,164.00/mês  [A-84ebe4]
+  Company_42      (Pro       )  $6,766.00/mês  [A-7f8241]
+  Company_115     (Enterprise)  $6,766.00/mês  [A-e61e98]
+  Company_497     (Basic     )  $6,567.00/mês  [A-d26ab4]
+  Company_140     (Basic     )  $6,169.00/mês  [A-50f3f7]
+  Company_125     (Basic     )  $5,970.00/mês  [A-7df7a7]
+  Company_195     (Basic     )  $5,572.00/mês  [A-692f18]
+  Company_400     (Pro       )  $5,572.00/mês  [A-0f6450]
+
+Concentração: top 20% das contas churned (22 contas) = $158,687.00 = 62.1% do MRR perdido total
+
+======================================================================
+7. UPGRADE/DOWNGRADE antes do churn
+======================================================================
+Eventos de churn precedidos por upgrade:   123 (20.5%)
+Eventos de churn precedidos por downgrade: 53 (8.8%)
+
+======================================================================
+8. TEMPO ATÉ O CHURN (tenure) — por assinatura churned
+======================================================================
+Tenure médio até churn: 88 dias  | mediana: 42 dias
+% que churnaram em <90 dias (early churn): 67.9%
+% que churnaram em >365 dias: 4.3%
+
+======================================================================
+9. CHURN AO LONGO DO TEMPO — subiu mesmo? quando?
+======================================================================
+  2023-01: 1 eventos
+  2023-03: 5 eventos
+  2023-04: 3 eventos
+  2023-05: 3 eventos
+  2023-06: 5 eventos
+  2023-07: 6 eventos
+  2023-08: 7 eventos
+  2023-09: 6 eventos
+  2023-10: 10 eventos
+  2023-11: 11 eventos
+  2023-12: 16 eventos
+  2024-01: 20 eventos
+  2024-02: 10 eventos
+  2024-03: 24 eventos
+  2024-04: 25 eventos
+  2024-05: 27 eventos
+  2024-06: 40 eventos
+  2024-07: 35 eventos
+  2024-08: 42 eventos
+  2024-09: 53 eventos
+  2024-10: 66 eventos
+  2024-11: 68 eventos
+  2024-12: 117 eventos
+
+======================================================================
+10. FEATURE USAGE — quais features os churned menos usaram (ou mais erraram)
+======================================================================
+Feature        | erro% churned | erro% ativas | dif
+  feature_22        7.31%         5.19%       +2.12pp
+  feature_20        6.59%         4.51%       +2.08pp
+  feature_27        7.75%         5.67%       +2.08pp
+  feature_11        7.03%         5.20%       +1.82pp
+  feature_34        7.57%         5.95%       +1.62pp
+  feature_7         6.54%         4.97%       +1.57pp
+  feature_39        6.98%         5.42%       +1.56pp
+  feature_24        6.81%         5.35%       +1.46pp
+  feature_2         7.39%         6.00%       +1.39pp
+  feature_1         6.45%         5.14%       +1.31pp

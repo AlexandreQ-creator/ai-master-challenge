@@ -1,0 +1,12 @@
+=== TESTE DO AUDITOR DE CONTEXTO LIMPO (5o agente) ===
+
+Teste 1 (resposta com linguagem de causa direta -> deve BLOQUEAR):
+  {'veredito': 'bloqueado', 'obrigatoria': True, 'ressalva': "linguagem de causa direta ('a causa é') sem distinguir de correlação — reformular"}
+
+Teste 2 (resposta bem formulada -> deve APROVAR):
+  {'veredito': 'aprovado', 'obrigatoria': True, 'ressalva': '(auditado: y)'}
+
+Teste 3 (dominio de baixo risco, isento de auditoria -> aprova sem checar texto):
+  {'veredito': 'aprovado', 'obrigatoria': False, 'ressalva': None}
+
+TODOS OS TESTES DO AUDITOR PASSARAM (3/3)
