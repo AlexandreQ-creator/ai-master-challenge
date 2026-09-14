@@ -114,9 +114,19 @@ class DataGroundingAgent:
         compute_metrics(). Se o arquivo não existir (harness nunca rodado),
         devolve None para o subagente tratar como "não calculado".
         """
+        return self._ler_json_se_existir("../process-log/auditoria-final.json")
+
+    def consistencia(self):
+        """
+        Mesma lógica de auditoria(), mas para o resultado de
+        harness_consistencia_artefatos.py — se os números batem entre
+        compute_metrics(), Excel, dashboard e a própria IA de consulta.
+        """
+        return self._ler_json_se_existir("../process-log/consistencia-artefatos.json")
+
+    def _ler_json_se_existir(self, caminho):
         import json
         import os
-        caminho = "../process-log/auditoria-final.json"
         if not os.path.exists(caminho):
             return None
         with open(caminho, encoding="utf-8") as f:
@@ -238,26 +248,38 @@ class AuditoriaAgent:
     dominio = "auditoria"
 
     def responder(self, pergunta: str, grounding: DataGroundingAgent):
-        dados = grounding.auditoria()
-        if dados is None:
+        aud = grounding.auditoria()
+        cons = grounding.consistencia()
+        if aud is None and cons is None:
             return {
                 "fatos": [],
                 "numeros": {},
                 "fonte": None,
-                "nao_calculado": "harness_auditoria_submissao.py ainda não foi rodado nesta sessão — rode-o primeiro para gerar process-log/auditoria-final.json",
+                "nao_calculado": "nenhum harness rodado ainda nesta sessão — rode harness_auditoria_submissao.py e/ou harness_consistencia_artefatos.py primeiro",
             }
-        resumo = dados["resumo"]
-        falhas = [r for r in dados["resultados"] if r["status"] == "FALHOU"]
-        fatos = [f"{resumo['passou']}/{resumo['total']} testes automatizados passaram (auditados contra {dados['fonte_do_brief']})"]
-        if falhas:
-            fatos += [f"FALHOU: [{r['id']}] {r['nome']} — {r['detalhe']}" for r in falhas]
-        else:
-            fatos.append("Nenhuma falha — todos os critérios objetivamente verificáveis do brief oficial foram atendidos")
+
+        fatos = []
+        fontes = []
+
+        if aud is not None:
+            resumo = aud["resumo"]
+            falhas = [r for r in aud["resultados"] if r["status"] == "FALHOU"]
+            fatos.append(f"Conformidade com o brief oficial: {resumo['passou']}/{resumo['total']} testes passaram")
+            fatos += [f"  FALHOU: [{r['id']}] {r['nome']} — {r['detalhe']}" for r in falhas]
+            fontes.append("process-log/auditoria-final.json (harness_auditoria_submissao.py)")
+
+        if cons is not None:
+            resumo_c = cons["resumo"]
+            falhas_c = [r for r in cons["resultados"] if r["status"] == "FALHOU"]
+            fatos.append(f"Consistência entre artefatos (Excel/dashboard/IA): {resumo_c['passou']}/{resumo_c['total']} números batem")
+            fatos += [f"  DIVERGÊNCIA: [{r['id']}] {r['nome']} — {r['detalhe']}" for r in falhas_c]
+            fontes.append("process-log/consistencia-artefatos.json (harness_consistencia_artefatos.py)")
+
         return {
             "fatos": fatos,
-            "numeros": resumo,
-            "fonte": "process-log/auditoria-final.json, gerado por harness_auditoria_submissao.py",
-            "guardrail": "reporta o resultado já extraído, nunca re-roda o harness por conta própria",
+            "numeros": {"auditoria": aud["resumo"] if aud else None, "consistencia": cons["resumo"] if cons else None},
+            "fonte": "; ".join(fontes),
+            "guardrail": "reporta o resultado já extraído, nunca re-roda nenhum harness por conta própria",
         }
 
 

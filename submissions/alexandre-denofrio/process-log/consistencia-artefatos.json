@@ -1,0 +1,53 @@
+{
+  "gerado_em": "2026-09-14T16:07:36.020706",
+  "descricao": "Consistência de números entre compute_metrics(), Excel, dashboard.html e IA de consulta",
+  "resultados": [
+    {
+      "id": "CONS-1",
+      "nome": "MRR Company_4: fonte vs. Excel",
+      "status": "PASSOU",
+      "detalhe": "$21,691.00 idêntico nos dois"
+    },
+    {
+      "id": "CONS-2",
+      "nome": "MRR Company_4: fonte vs. dashboard.html",
+      "status": "PASSOU",
+      "detalhe": "$21,691.00 idêntico nos dois"
+    },
+    {
+      "id": "CONS-3",
+      "nome": "MRR Company_4: fonte vs. IA de consulta",
+      "status": "PASSOU",
+      "detalhe": "$21,691.00 idêntico nos dois (subprocess real, não import direto)"
+    },
+    {
+      "id": "CONS-4",
+      "nome": "Taxa de churn: fonte vs. Excel",
+      "status": "PASSOU",
+      "detalhe": "22.0% idêntico nos dois"
+    },
+    {
+      "id": "CONS-5",
+      "nome": "Taxa de churn: fonte vs. dashboard.html",
+      "status": "PASSOU",
+      "detalhe": "22.0% idêntico nos dois"
+    },
+    {
+      "id": "CONS-6",
+      "nome": "% early churn: fonte vs. dashboard.html",
+      "status": "PASSOU",
+      "detalhe": "67.9% idêntico nos dois"
+    },
+    {
+      "id": "CONS-7",
+      "nome": "Top segmento de risco: fonte vs. Excel vs. dashboard",
+      "status": "PASSOU",
+      "detalhe": "DevTools/event consistente nos 3"
+    }
+  ],
+  "resumo": {
+    "total": 7,
+    "passou": 7,
+    "falhou": 0
+  }
+}

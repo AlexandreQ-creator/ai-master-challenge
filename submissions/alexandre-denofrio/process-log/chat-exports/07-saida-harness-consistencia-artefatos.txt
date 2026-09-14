@@ -1,0 +1,35 @@
+======================================================================
+HARNESS DE CONSISTÊNCIA — extração → Excel → dashboard → IA de consulta
+======================================================================
+
+Fonte única (compute_metrics()): MRR Company_4=$21,691.00, n_churned=110, churn_rate=22.0%, pct_early_churn=67.9%
+
+Testes executados: 7 | Passou: 7 | Falhou: 0 | Tempo: 2.104s
+----------------------------------------------------------------------
+
+✅ [CONS-1] MRR Company_4: fonte vs. Excel
+   PASSOU — $21,691.00 idêntico nos dois
+
+✅ [CONS-2] MRR Company_4: fonte vs. dashboard.html
+   PASSOU — $21,691.00 idêntico nos dois
+
+✅ [CONS-3] MRR Company_4: fonte vs. IA de consulta
+   PASSOU — $21,691.00 idêntico nos dois (subprocess real, não import direto)
+
+✅ [CONS-4] Taxa de churn: fonte vs. Excel
+   PASSOU — 22.0% idêntico nos dois
+
+✅ [CONS-5] Taxa de churn: fonte vs. dashboard.html
+   PASSOU — 22.0% idêntico nos dois
+
+✅ [CONS-6] % early churn: fonte vs. dashboard.html
+   PASSOU — 67.9% idêntico nos dois
+
+✅ [CONS-7] Top segmento de risco: fonte vs. Excel vs. dashboard
+   PASSOU — DevTools/event consistente nos 3
+
+======================================================================
+VEREDITO: 7/7 — todos os números batem entre extração, Excel, dashboard e IA de consulta. Nenhuma divergência encontrada.
+======================================================================
+
+Dados extraídos salvos para consulta futura: ../process-log/consistencia-artefatos.json

@@ -41,7 +41,7 @@ Tempo: 0.006s
    PASSOU — README tem seção dedicada a pistas descartadas por não se sustentarem
 
 ✅ [OBRIG-1] Process log obrigatório (com evidência física)
-   PASSOU — seção Process Log no README + 7 arquivos em process-log/chat-exports/
+   PASSOU — seção Process Log no README + 8 arquivos em process-log/chat-exports/
 
 ✅ [OBRIG-2] Estrutura de pasta conforme CONTRIBUTING.md
    PASSOU — README.md, solution/, process-log/ presentes

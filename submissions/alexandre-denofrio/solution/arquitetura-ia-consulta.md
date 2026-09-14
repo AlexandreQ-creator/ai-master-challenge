@@ -307,8 +307,12 @@ com o bug real de mascaramento encontrado e corrigido nesta sessão como caso co
 
 ## Harness de auditoria final — a própria submissão auditada contra o brief oficial
 
-Além dos 6 agentes de consulta, `solution/harness_auditoria_submissao.py` fecha o
-loop: audita a submissão inteira contra o brief **oficial**, lido direto do commit do
+Além dos 6 agentes de consulta, dois harnesses fecham o loop, cobrindo dois tipos de
+risco diferentes — conteúdo e consistência:
+
+### `harness_auditoria_submissao.py` — o conteúdo cobre o brief oficial?
+
+Audita a submissão inteira contra o brief **oficial**, lido direto do commit do
 repositório (`challenges/data-001-churn/README.md`), não de memória ou paráfrase.
 Mesmo padrão do `harness-mestre-dados.py` já corrigido nesta sessão — 13 testes
 programáticos (os 5 critérios de qualidade + as 6 dicas do brief + 2 obrigatoriedades
@@ -323,10 +327,28 @@ extenso "primeiro semestre de 2023". Corrigido o teste (não a submissão, que j
 estava correta), confirmado 13/13 — evidência de que o harness testa de verdade, não
 finge passar. Saída completa em `process-log/chat-exports/05-saida-harness-auditoria-final.txt`.
 
-O resultado é salvo em `process-log/auditoria-final.json` — dados já extraídos,
-consultáveis pelo 6º subagente (Auditoria/Conformidade) sem re-rodar o harness a cada
-pergunta, mesma disciplina de "calcular uma vez, consumir depois" já aplicada em
-`compute_metrics()`.
+### `harness_consistencia_artefatos.py` — o mesmo número bate em todos os formatos?
+
+Diferente do harness acima (que testa se o *texto* do README cobre o brief), este
+testa se o *mesmo número* aparece igual em `compute_metrics()` (fonte única), no
+`.xlsx`, no `dashboard.html`, e na resposta real da IA de consulta (via subprocess,
+não import direto — testando o comportamento real de linha de comando). 7 testes:
+MRR da Company_4, taxa de churn geral, % de churn em <90 dias, e o segmento de maior
+risco, cada um extraído por múltiplos caminhos independentes e comparado.
+
+**Achado real da primeira rodada:** 6/7 — o teste `CONS-2` (MRR no dashboard) não
+encontrava a linha da Company_4. Investigação mostrou que era o regex do teste
+procurando `US\$` quando a tabela de "Contas em Risco" do dashboard formata só com
+`$` (sem "US" antes) — diferente de outras seções do mesmo HTML que usam "US$".
+Corrigido o teste depois de ler o HTML real, não assumir o formato; confirmado 7/7.
+Mesmo padrão de disciplina do harness de auditoria acima: nunca aceitar "falhou" nem
+"passou" sem investigar a causa raiz primeiro. Saída completa em
+`process-log/chat-exports/07-saida-harness-consistencia-artefatos.txt`.
+
+Os dois resultados são salvos (`process-log/auditoria-final.json`,
+`process-log/consistencia-artefatos.json`) — dados já extraídos, consultáveis pelo 6º
+subagente (Auditoria/Conformidade) sem re-rodar nenhum harness a cada pergunta, mesma
+disciplina de "calcular uma vez, consumir depois" já aplicada em `compute_metrics()`.
 
 ---
 

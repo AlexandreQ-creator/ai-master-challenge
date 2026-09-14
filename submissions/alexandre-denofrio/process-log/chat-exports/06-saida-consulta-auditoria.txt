@@ -1,4 +1,4 @@
-- 13/13 testes automatizados passaram (auditados contra challenges/data-001-churn/README.md (commit 4aed364 do repo oficial))
-- Nenhuma falha — todos os critérios objetivamente verificáveis do brief oficial foram atendidos
+- Conformidade com o brief oficial: 13/13 testes passaram
+- Consistência entre artefatos (Excel/dashboard/IA): 7/7 números batem
 
-_Fonte: process-log/auditoria-final.json, gerado por harness_auditoria_submissao.py_
+_Fonte: process-log/auditoria-final.json (harness_auditoria_submissao.py); process-log/consistencia-artefatos.json (harness_consistencia_artefatos.py)_
