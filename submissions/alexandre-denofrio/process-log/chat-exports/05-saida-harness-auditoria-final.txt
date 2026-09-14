@@ -1,0 +1,53 @@
+======================================================================
+HARNESS DE AUDITORIA — Challenge 001, contra o brief oficial do GitHub
+======================================================================
+
+Testes executados: 13
+Passou: 13 | Falhou: 0 | Não verificável por script: 0
+Tempo: 0.006s
+----------------------------------------------------------------------
+
+✅ [C1] Cruzamento entre as 5 tabelas
+   PASSOU — 5/5 tabelas carregadas em analise.py, chaves de join (account_id, subscription_id) presentes
+
+✅ [C2] Insights verificáveis (números mostrados)
+   PASSOU — 33 números/percentuais citados no README.md
+
+✅ [C3] Recomendações acionáveis, não genéricas
+   PASSOU — 5 recomendações numeradas, nenhuma das frases-clichê do brief encontrada
+
+✅ [C4] Distingue correlação de causalidade
+   PASSOU — termos de distinção causal presentes: ['correlação', 'causa raiz', 'ruído']
+
+✅ [C5] CEO não-técnico consegue ler e agir
+   PASSOU — dashboard.html (visual) e planilha Excel existem além do Markdown técnico
+
+✅ [D1] Estrutura entendida antes da análise
+   PASSOU — Workflow do README menciona inspeção de schema antes de escrever lógica
+
+✅ [D2] Feature usage cruzado com churn_events (não só churn_flag)
+   PASSOU — README cita uso nos 30 dias antes do churn real (churn_events.churn_date)
+
+✅ [D3] Tickets de suporte: churned vs. ativos
+   PASSOU — README compara tempo de resposta/resolução entre os dois grupos
+
+✅ [D4] 'Uso cresceu' testado por segmento, não só agregado
+   PASSOU — README quebra uso por indústria (semestre a semestre), não só a média geral
+
+✅ [D5] Nem todo churn tem o mesmo peso (MRR concentrado)
+   PASSOU — README trata concentração de MRR em poucas contas, não todas como equivalentes
+
+✅ [D6] Cuidado com correlação apressada
+   PASSOU — README tem seção dedicada a pistas descartadas por não se sustentarem
+
+✅ [OBRIG-1] Process log obrigatório (com evidência física)
+   PASSOU — seção Process Log no README + 7 arquivos em process-log/chat-exports/
+
+✅ [OBRIG-2] Estrutura de pasta conforme CONTRIBUTING.md
+   PASSOU — README.md, solution/, process-log/ presentes
+
+======================================================================
+VEREDITO: 13/13 testes automatizados passaram. 0 critério(s) exigem julgamento humano (não fingidos como testados).
+======================================================================
+
+Dados extraídos salvos para consulta futura: ../process-log/auditoria-final.json

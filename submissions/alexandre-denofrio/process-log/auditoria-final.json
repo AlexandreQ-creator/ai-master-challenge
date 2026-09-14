@@ -1,0 +1,90 @@
+{
+  "gerado_em": "2026-09-14T15:54:55.215004",
+  "fonte_do_brief": "challenges/data-001-churn/README.md (commit 4aed364 do repo oficial)",
+  "resultados": [
+    {
+      "id": "C1",
+      "nome": "Cruzamento entre as 5 tabelas",
+      "status": "PASSOU",
+      "detalhe": "5/5 tabelas carregadas em analise.py, chaves de join (account_id, subscription_id) presentes"
+    },
+    {
+      "id": "C2",
+      "nome": "Insights verificáveis (números mostrados)",
+      "status": "PASSOU",
+      "detalhe": "33 números/percentuais citados no README.md"
+    },
+    {
+      "id": "C3",
+      "nome": "Recomendações acionáveis, não genéricas",
+      "status": "PASSOU",
+      "detalhe": "5 recomendações numeradas, nenhuma das frases-clichê do brief encontrada"
+    },
+    {
+      "id": "C4",
+      "nome": "Distingue correlação de causalidade",
+      "status": "PASSOU",
+      "detalhe": "termos de distinção causal presentes: ['correlação', 'causa raiz', 'ruído']"
+    },
+    {
+      "id": "C5",
+      "nome": "CEO não-técnico consegue ler e agir",
+      "status": "PASSOU",
+      "detalhe": "dashboard.html (visual) e planilha Excel existem além do Markdown técnico"
+    },
+    {
+      "id": "D1",
+      "nome": "Estrutura entendida antes da análise",
+      "status": "PASSOU",
+      "detalhe": "Workflow do README menciona inspeção de schema antes de escrever lógica"
+    },
+    {
+      "id": "D2",
+      "nome": "Feature usage cruzado com churn_events (não só churn_flag)",
+      "status": "PASSOU",
+      "detalhe": "README cita uso nos 30 dias antes do churn real (churn_events.churn_date)"
+    },
+    {
+      "id": "D3",
+      "nome": "Tickets de suporte: churned vs. ativos",
+      "status": "PASSOU",
+      "detalhe": "README compara tempo de resposta/resolução entre os dois grupos"
+    },
+    {
+      "id": "D4",
+      "nome": "'Uso cresceu' testado por segmento, não só agregado",
+      "status": "PASSOU",
+      "detalhe": "README quebra uso por indústria (semestre a semestre), não só a média geral"
+    },
+    {
+      "id": "D5",
+      "nome": "Nem todo churn tem o mesmo peso (MRR concentrado)",
+      "status": "PASSOU",
+      "detalhe": "README trata concentração de MRR em poucas contas, não todas como equivalentes"
+    },
+    {
+      "id": "D6",
+      "nome": "Cuidado com correlação apressada",
+      "status": "PASSOU",
+      "detalhe": "README tem seção dedicada a pistas descartadas por não se sustentarem"
+    },
+    {
+      "id": "OBRIG-1",
+      "nome": "Process log obrigatório (com evidência física)",
+      "status": "PASSOU",
+      "detalhe": "seção Process Log no README + 7 arquivos em process-log/chat-exports/"
+    },
+    {
+      "id": "OBRIG-2",
+      "nome": "Estrutura de pasta conforme CONTRIBUTING.md",
+      "status": "PASSOU",
+      "detalhe": "README.md, solution/, process-log/ presentes"
+    }
+  ],
+  "resumo": {
+    "total": 13,
+    "passou": 13,
+    "falhou": 0,
+    "nao_verificavel": 0
+  }
+}

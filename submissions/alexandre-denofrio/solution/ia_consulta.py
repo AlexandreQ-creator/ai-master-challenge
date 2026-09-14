@@ -31,7 +31,7 @@ from gerar_excel import compute_metrics
 # Agente 1 — Roteador
 # ---------------------------------------------------------------------------
 
-DOMINIOS = ["causa_raiz", "segmentos", "contas", "recomendacoes", "metodologia"]
+DOMINIOS = ["causa_raiz", "segmentos", "contas", "recomendacoes", "metodologia", "auditoria"]
 
 # Cada domínio é reconhecido por palavras-chave em PT-BR. Ordem importa:
 # perguntas que citam uma conta específica (ex. "Company_4") são roteadas
@@ -44,6 +44,7 @@ PALAVRAS_CHAVE = {
     "segmentos": ["segmento", "indústria", "industria", "canal", "risco", "devtools", "trial", "setor"],
     "recomendacoes": ["deveria", "recomend", "ação", "acao", "prioridade", "o que fazer", "próximo passo", "proximo passo"],
     "metodologia": ["como vocês", "como voces", "confiar", "metodologia", "limitação", "limitacao", "fonte dos dados", "confiável", "confiavel"],
+    "auditoria": ["auditoria", "pronta pro pr", "pronto pro pr", "passou no teste", "conformidade", "critérios do brief", "criterios do brief", "está pronta", "esta pronta"],
 }
 
 FORA_DE_ESCOPO = [
@@ -64,7 +65,7 @@ class QueryRouter:
             return {"status": "ok", "dominio": "contas"}
 
         pergunta_lower = pergunta.lower()
-        for dominio in ["recomendacoes", "metodologia", "segmentos", "causa_raiz"]:
+        for dominio in ["auditoria", "recomendacoes", "metodologia", "segmentos", "causa_raiz"]:
             for kw in PALAVRAS_CHAVE.get(dominio, []):
                 if kw in pergunta_lower:
                     return {"status": "ok", "dominio": dominio}
@@ -104,6 +105,22 @@ class DataGroundingAgent:
             if alvo in conta["name"].lower() or alvo == conta["account_id"].lower():
                 return conta
         return None
+
+    def auditoria(self):
+        """
+        Lê o resultado já extraído por harness_auditoria_submissao.py
+        (process-log/auditoria-final.json) — nunca re-roda o harness aqui,
+        mesma disciplina de "calcular uma vez, consultar depois" de
+        compute_metrics(). Se o arquivo não existir (harness nunca rodado),
+        devolve None para o subagente tratar como "não calculado".
+        """
+        import json
+        import os
+        caminho = "../process-log/auditoria-final.json"
+        if not os.path.exists(caminho):
+            return None
+        with open(caminho, encoding="utf-8") as f:
+            return json.load(f)
 
 
 # ---------------------------------------------------------------------------
@@ -217,12 +234,40 @@ class MetodologiaAgent:
         }
 
 
+class AuditoriaAgent:
+    dominio = "auditoria"
+
+    def responder(self, pergunta: str, grounding: DataGroundingAgent):
+        dados = grounding.auditoria()
+        if dados is None:
+            return {
+                "fatos": [],
+                "numeros": {},
+                "fonte": None,
+                "nao_calculado": "harness_auditoria_submissao.py ainda não foi rodado nesta sessão — rode-o primeiro para gerar process-log/auditoria-final.json",
+            }
+        resumo = dados["resumo"]
+        falhas = [r for r in dados["resultados"] if r["status"] == "FALHOU"]
+        fatos = [f"{resumo['passou']}/{resumo['total']} testes automatizados passaram (auditados contra {dados['fonte_do_brief']})"]
+        if falhas:
+            fatos += [f"FALHOU: [{r['id']}] {r['nome']} — {r['detalhe']}" for r in falhas]
+        else:
+            fatos.append("Nenhuma falha — todos os critérios objetivamente verificáveis do brief oficial foram atendidos")
+        return {
+            "fatos": fatos,
+            "numeros": resumo,
+            "fonte": "process-log/auditoria-final.json, gerado por harness_auditoria_submissao.py",
+            "guardrail": "reporta o resultado já extraído, nunca re-roda o harness por conta própria",
+        }
+
+
 SUBAGENTES = {
     "causa_raiz": CausaRaizAgent(),
     "segmentos": SegmentosAgent(),
     "contas": ContasAgent(),
     "recomendacoes": RecomendacoesAgent(),
     "metodologia": MetodologiaAgent(),
+    "auditoria": AuditoriaAgent(),
 }
 
 

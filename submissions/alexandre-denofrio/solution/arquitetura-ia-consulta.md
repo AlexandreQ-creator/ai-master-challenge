@@ -93,6 +93,7 @@ depois de receber dado do Agente de Grounding — nunca calcula por conta própr
 | **Contas Específicas** | "qual o MRR da Company_4?", "quais as top 10 contas em risco?" | Tabela `churned_mrr` em `compute_metrics()` |
 | **Recomendações** | "o que a gente deveria fazer?", "qual a prioridade?" | As 5 recomendações priorizadas do README, com o número de impacto estimado já calculado |
 | **Metodologia/Limitações** | "como vocês chegaram nisso?", "dá pra confiar nesse número?" | Seção Limitações + Process Log do README — inclui admitir abertamente o que não foi verificado (ex. dicionário de dados das features anônimas) |
+| **Auditoria/Conformidade** | "essa submissão está pronta pro PR?", "passou nos critérios do brief?" | `process-log/auditoria-final.json`, gerado por `harness_auditoria_submissao.py` — nunca re-roda o harness, só lê o resultado já extraído (mesma disciplina de `compute_metrics()`) |
 
 **Por que separar por eixo em vez de um agente de domínio único:** cada eixo tem um
 modo de falha diferente que o brief do challenge testa explicitamente. "Causa Raiz"
@@ -301,6 +302,31 @@ Usuário pergunta
 Ver também a seção dedicada **"Segurança da informação e privacidade de dados"**
 acima — trata especificamente do que a arquitetura garante sobre PII/dado sensível,
 com o bug real de mascaramento encontrado e corrigido nesta sessão como caso concreto.
+
+---
+
+## Harness de auditoria final — a própria submissão auditada contra o brief oficial
+
+Além dos 6 agentes de consulta, `solution/harness_auditoria_submissao.py` fecha o
+loop: audita a submissão inteira contra o brief **oficial**, lido direto do commit do
+repositório (`challenges/data-001-churn/README.md`), não de memória ou paráfrase.
+Mesmo padrão do `harness-mestre-dados.py` já corrigido nesta sessão — 13 testes
+programáticos (os 5 critérios de qualidade + as 6 dicas do brief + 2 obrigatoriedades
+do `submission-guide.md`), cada um com assert real contra os artefatos reais
+(`README.md`, `analise.py`, a estrutura de pasta), veredito condicionado ao resultado
+real, não uma mensagem fixa.
+
+**Achado real da primeira rodada:** o harness reportou 12/13 — não porque a
+submissão estava incompleta, mas porque o teste da dica "uso cresceu para todos os
+segmentos?" procurava a string literal `"H1-2023"`, e o README usa a forma por
+extenso "primeiro semestre de 2023". Corrigido o teste (não a submissão, que já
+estava correta), confirmado 13/13 — evidência de que o harness testa de verdade, não
+finge passar. Saída completa em `process-log/chat-exports/05-saida-harness-auditoria-final.txt`.
+
+O resultado é salvo em `process-log/auditoria-final.json` — dados já extraídos,
+consultáveis pelo 6º subagente (Auditoria/Conformidade) sem re-rodar o harness a cada
+pergunta, mesma disciplina de "calcular uma vez, consumir depois" já aplicada em
+`compute_metrics()`.
 
 ---
 
