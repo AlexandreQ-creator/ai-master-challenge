@@ -1,4 +1,5 @@
 - Conformidade com o brief oficial: 13/13 testes passaram
 - Consistência entre artefatos (Excel/dashboard/IA): 7/7 números batem
+- Integridade semântica: 50 pares de colunas categóricas testados; nenhum com associação relevante (Cramér's V máx = 0.1328). Dataset sem estrutura categórica — achados que dependam de relação entre campos categóricos são propriedade do dado, não insight de negócio.
 
-_Fonte: process-log/auditoria-final.json (harness_auditoria_submissao.py); process-log/consistencia-artefatos.json (harness_consistencia_artefatos.py)_
+_Fonte: process-log/auditoria-final.json (harness_auditoria_submissao.py); process-log/consistencia-artefatos.json (harness_consistencia_artefatos.py); process-log/auditoria-integridade-semantica.json (auditor_integridade_semantica.py)_

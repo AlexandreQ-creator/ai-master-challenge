@@ -1,0 +1,110 @@
+==============================================================================
+AUDITOR DE INTEGRIDADE SEMÂNTICA — campos categóricos que podem ser ruído
+==============================================================================
+
+Pares testados: 50 (todas as combinações de colunas categóricas
+                das 5 tabelas, sem hipótese prévia sobre onde procurar)
+Correção para comparações múltiplas: Bonferroni
+  alfa base 0.05 / 50 testes -> alfa por teste: 0.001
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+DIAGNÓSTICO PRÉVIO: dataset sem estrutura categórica
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  Cramér's V máximo em 50 pares: 0.1328
+  Pares independentes: 92.0%
+
+  NENHUM par de colunas categóricas deste dataset tem associação de
+  relevância prática (V > 0,2) — incluindo pares que em qualquer base
+  real de negócio seriam fortemente associados.
+
+  Interpretação: isto NÃO é 'vários campos quebrados'. É a assinatura
+  de um dataset sintético cujas colunas categóricas foram geradas
+  independentemente umas das outras.
+
+  CONSEQUÊNCIA PRÁTICA: qualquer achado deste dataset que dependa da
+  relação entre dois campos categóricos precisa ser reportado como
+  propriedade do dado, não como insight sobre o negócio. A lista
+  abaixo é informativa — não trate como 7 bugs a corrigir.
+
+------------------------------------------------------------------------------
+SEVERIDADE ALTA — campos que DEVERIAM se relacionar e não se relacionam
+------------------------------------------------------------------------------
+
+  ravenstack_accounts.csv
+  plan_tier x is_trial
+    chi2 = 4.055 (gl=2, crítico=13.816) -> INDEPENDENTE
+    Cramér's V = 0.0901 (0 = nenhuma associação)
+    n = 500 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_subscriptions.csv
+  plan_tier x is_trial
+    chi2 = 0.169 (gl=2, crítico=13.816) -> INDEPENDENTE
+    Cramér's V = 0.0058 (0 = nenhuma associação)
+    n = 5000 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_subscriptions.csv
+  upgrade_flag x downgrade_flag
+    chi2 = 0.0 (gl=1, crítico=10.828) -> INDEPENDENTE
+    Cramér's V = 0.0002 (0 = nenhuma associação)
+    n = 5000 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_subscriptions.csv
+  churn_flag x auto_renew_flag
+    chi2 = 0.007 (gl=1, crítico=10.828) -> INDEPENDENTE
+    Cramér's V = 0.0012 (0 = nenhuma associação)
+    n = 5000 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_support_tickets.csv
+  priority x satisfaction_score
+    chi2 = 5.108 (gl=6, crítico=22.458) -> INDEPENDENTE
+    Cramér's V = 0.0466 (0 = nenhuma associação)
+    n = 1175 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_support_tickets.csv
+  priority x escalation_flag
+    chi2 = 0.215 (gl=3, crítico=16.266) -> INDEPENDENTE
+    Cramér's V = 0.0104 (0 = nenhuma associação)
+    n = 2000 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+  ravenstack_churn_events.csv
+  reason_code x feedback_text
+    chi2 = 3.831 (gl=10, crítico=29.588) -> INDEPENDENTE
+    Cramér's V = 0.0651 (0 = nenhuma associação)
+    n = 452 linhas com ambos preenchidos
+    => Estes dois campos descrevem a mesma realidade, mas são
+       estatisticamente independentes. Um deles provavelmente não
+       está sendo preenchido com base na realidade.
+
+------------------------------------------------------------------------------
+RESUMO DOS 5 PARES COM MAIOR ASSOCIAÇÃO (contexto — o que é normal aqui)
+------------------------------------------------------------------------------
+  (nenhum par com associação significativa)
+
+Vereditos: {'AMOSTRA INSUFICIENTE': 4, 'INDEPENDENTE': 46}
+
+==============================================================================
+VEREDITO: dataset sem estrutura categórica detectável.
+  7 par(es) de relação esperada saíram independentes, mas o
+  diagnóstico acima mostra que isso vale para o dataset inteiro, não
+  para campos específicos. Reportar como propriedade do dado.
+==============================================================================
+
+Dados salvos para consulta: ../process-log/auditoria-integridade-semantica.json

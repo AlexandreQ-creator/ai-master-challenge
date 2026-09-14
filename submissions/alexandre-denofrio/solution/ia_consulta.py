@@ -124,6 +124,14 @@ class DataGroundingAgent:
         """
         return self._ler_json_se_existir("../process-log/consistencia-artefatos.json")
 
+    def integridade_semantica(self):
+        """
+        Resultado de auditor_integridade_semantica.py — se algum campo
+        categórico se comporta como ruído, e se o dataset como um todo
+        tem estrutura categórica detectável.
+        """
+        return self._ler_json_se_existir("../process-log/auditoria-integridade-semantica.json")
+
     def _ler_json_se_existir(self, caminho):
         import json
         import os
@@ -250,12 +258,12 @@ class AuditoriaAgent:
     def responder(self, pergunta: str, grounding: DataGroundingAgent):
         aud = grounding.auditoria()
         cons = grounding.consistencia()
-        if aud is None and cons is None:
+        if aud is None and cons is None and grounding.integridade_semantica() is None:
             return {
                 "fatos": [],
                 "numeros": {},
                 "fonte": None,
-                "nao_calculado": "nenhum harness rodado ainda nesta sessão — rode harness_auditoria_submissao.py e/ou harness_consistencia_artefatos.py primeiro",
+                "nao_calculado": "nenhum harness rodado ainda nesta sessão — rode harness_auditoria_submissao.py, harness_consistencia_artefatos.py e/ou auditor_integridade_semantica.py primeiro",
             }
 
         fatos = []
@@ -274,6 +282,22 @@ class AuditoriaAgent:
             fatos.append(f"Consistência entre artefatos (Excel/dashboard/IA): {resumo_c['passou']}/{resumo_c['total']} números batem")
             fatos += [f"  DIVERGÊNCIA: [{r['id']}] {r['nome']} — {r['detalhe']}" for r in falhas_c]
             fontes.append("process-log/consistencia-artefatos.json (harness_consistencia_artefatos.py)")
+
+        sem = grounding.integridade_semantica()
+        if sem is not None:
+            diag = sem.get("diagnostico_dataset") or {}
+            n_pares = sem["n_pares_testados"]
+            if diag.get("dataset_sem_estrutura_categorica"):
+                fatos.append(
+                    f"Integridade semântica: {n_pares} pares de colunas categóricas testados; "
+                    f"nenhum com associação relevante (Cramér's V máx = {diag['cramers_v_maximo']}). "
+                    f"Dataset sem estrutura categórica — achados que dependam de relação entre "
+                    f"campos categóricos são propriedade do dado, não insight de negócio."
+                )
+            else:
+                n_susp = len(sem.get("suspeitos_alta_severidade", []))
+                fatos.append(f"Integridade semântica: {n_pares} pares testados, {n_susp} campo(s) suspeito(s) de ruído")
+            fontes.append("process-log/auditoria-integridade-semantica.json (auditor_integridade_semantica.py)")
 
         return {
             "fatos": fatos,

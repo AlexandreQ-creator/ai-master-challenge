@@ -1,0 +1,29 @@
+==========================================================================
+HARNESS DO AUDITOR SEMÂNTICO — 6 cenários com resposta conhecida
+==========================================================================
+
+Testes: 6 | Passou: 6 | Falhou: 0 | Tempo: 0.157s
+--------------------------------------------------------------------------
+
+✅ [SEM-1] Par fortemente associado é detectado
+   PASSOU — Cramér's V = 1.0, chi2 = 1200.0
+
+✅ [SEM-2] Par independente por construção é detectado
+   PASSOU — Cramér's V = 0.0619 (baixo, como esperado)
+
+✅ [SEM-3] Amostra insuficiente é marcada, não julgada
+   PASSOU — confiavel=False, 0.0% das células válidas
+
+✅ [SEM-4] Dataset sem estrutura dispara diagnóstico de nível global
+   PASSOU — V máx = 0.12, 100.0% independentes
+
+✅ [SEM-5] Dataset com estrutura + campo isolado quebrado
+   PASSOU — diagnóstico global não dispara (V máx = 0.55), suspeito fica isolado
+
+✅ [SEM-6] Caso real: encontra reason_code x feedback_text sem dica
+   PASSOU — chi2 = 3.831, V = 0.0651, severidade ALTA
+
+==========================================================================
+VEREDITO: 6/6 — o auditor detecta associação, independência,
+amostra insuficiente, e distingue 'dataset sem estrutura' de 'campo quebrado'.
+==========================================================================
