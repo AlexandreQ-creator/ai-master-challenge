@@ -1,0 +1,196 @@
+{
+  "baseline": "dataset fornecido pelo desafio (challenges/data-001-churn)",
+  "taxa_churn_global_pct": 22.0,
+  "k_escolhido": 6,
+  "silhouette_scores": {
+    "2": 0.126,
+    "3": 0.1266,
+    "4": 0.1348,
+    "5": 0.129,
+    "6": 0.1371,
+    "7": 0.1318,
+    "8": 0.1307
+  },
+  "features": [
+    "tenure_dias",
+    "mrr",
+    "uso_medio",
+    "n_features_distintas",
+    "taxa_erro",
+    "n_tickets",
+    "tempo_resolucao_h"
+  ],
+  "n_contas": 500,
+  "perfis": [
+    {
+      "cluster": 0,
+      "n_contas": 106,
+      "n_churned": 23,
+      "taxa_churn_pct": 21.7,
+      "mrr_total": 134384.0,
+      "medias": {
+        "tenure_dias": 955.62,
+        "mrr": 1267.77,
+        "uso_medio": 10.34,
+        "n_features_distintas": 23.83,
+        "taxa_erro": 0.04,
+        "n_tickets": 5.13,
+        "tempo_resolucao_h": 36.13
+      },
+      "industria_dominante": {
+        "valor": "FinTech",
+        "pct": 22.6
+      },
+      "canal_dominante": {
+        "valor": "ads",
+        "pct": 26.4
+      },
+      "plano_dominante": {
+        "valor": "Pro",
+        "pct": 39.6
+      }
+    },
+    {
+      "cluster": 1,
+      "n_contas": 95,
+      "n_churned": 25,
+      "taxa_churn_pct": 26.3,
+      "mrr_total": 168168.0,
+      "medias": {
+        "tenure_dias": 1735.71,
+        "mrr": 1770.19,
+        "uso_medio": 10.19,
+        "n_features_distintas": 30.05,
+        "taxa_erro": 0.05,
+        "n_tickets": 2.77,
+        "tempo_resolucao_h": 21.78
+      },
+      "industria_dominante": {
+        "valor": "FinTech",
+        "pct": 25.3
+      },
+      "canal_dominante": {
+        "valor": "event",
+        "pct": 26.3
+      },
+      "plano_dominante": {
+        "valor": "Basic",
+        "pct": 41.1
+      }
+    },
+    {
+      "cluster": 2,
+      "n_contas": 102,
+      "n_churned": 30,
+      "taxa_churn_pct": 29.4,
+      "mrr_total": 248487.0,
+      "medias": {
+        "tenure_dias": 3144.08,
+        "mrr": 2436.15,
+        "uso_medio": 9.93,
+        "n_features_distintas": 31.75,
+        "taxa_erro": 0.06,
+        "n_tickets": 4.47,
+        "tempo_resolucao_h": 39.04
+      },
+      "industria_dominante": {
+        "valor": "FinTech",
+        "pct": 24.5
+      },
+      "canal_dominante": {
+        "valor": "partner",
+        "pct": 20.6
+      },
+      "plano_dominante": {
+        "valor": "Pro",
+        "pct": 37.3
+      }
+    },
+    {
+      "cluster": 3,
+      "n_contas": 99,
+      "n_churned": 17,
+      "taxa_churn_pct": 17.2,
+      "mrr_total": 177800.0,
+      "medias": {
+        "tenure_dias": 883.08,
+        "mrr": 1795.96,
+        "uso_medio": 9.64,
+        "n_features_distintas": 23.55,
+        "taxa_erro": 0.07,
+        "n_tickets": 4.49,
+        "tempo_resolucao_h": 32.91
+      },
+      "industria_dominante": {
+        "valor": "DevTools",
+        "pct": 28.3
+      },
+      "canal_dominante": {
+        "valor": "organic",
+        "pct": 24.2
+      },
+      "plano_dominante": {
+        "valor": "Pro",
+        "pct": 44.4
+      }
+    },
+    {
+      "cluster": 4,
+      "n_contas": 27,
+      "n_churned": 4,
+      "taxa_churn_pct": 14.8,
+      "mrr_total": 384866.0,
+      "medias": {
+        "tenure_dias": 1544.15,
+        "mrr": 14254.3,
+        "uso_medio": 9.97,
+        "n_features_distintas": 29.0,
+        "taxa_erro": 0.06,
+        "n_tickets": 4.56,
+        "tempo_resolucao_h": 36.26
+      },
+      "industria_dominante": {
+        "valor": "FinTech",
+        "pct": 33.3
+      },
+      "canal_dominante": {
+        "valor": "organic",
+        "pct": 25.9
+      },
+      "plano_dominante": {
+        "valor": "Enterprise",
+        "pct": 40.7
+      }
+    },
+    {
+      "cluster": 5,
+      "n_contas": 71,
+      "n_churned": 11,
+      "taxa_churn_pct": 15.5,
+      "mrr_total": 124685.0,
+      "medias": {
+        "tenure_dias": 1247.99,
+        "mrr": 1756.13,
+        "uso_medio": 9.99,
+        "n_features_distintas": 29.21,
+        "taxa_erro": 0.06,
+        "n_tickets": 2.38,
+        "tempo_resolucao_h": 52.26
+      },
+      "industria_dominante": {
+        "valor": "Cybersecurity",
+        "pct": 25.4
+      },
+      "canal_dominante": {
+        "valor": "partner",
+        "pct": 25.4
+      },
+      "plano_dominante": {
+        "valor": "Basic",
+        "pct": 42.3
+      }
+    }
+  ],
+  "spread_clusters_pp": 14.6,
+  "spread_corte_manual_industria_canal_pp": 38.5
+}

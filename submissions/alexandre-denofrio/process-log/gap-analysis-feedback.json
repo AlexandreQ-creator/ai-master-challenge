@@ -1,0 +1,56 @@
+{
+  "n_eventos_churn": 600,
+  "n_com_feedback": 452,
+  "n_sem_feedback": 148,
+  "pct_com_feedback": 75.3,
+  "matriz": {
+    "missing features": {
+      "budget": 24,
+      "features": 27,
+      "unknown": 26,
+      "support": 31,
+      "competitor": 27,
+      "pricing": 20
+    },
+    "switched to competitor": {
+      "pricing": 24,
+      "budget": 24,
+      "features": 23,
+      "competitor": 21,
+      "support": 20,
+      "unknown": 24
+    },
+    "too expensive": {
+      "unknown": 23,
+      "features": 32,
+      "pricing": 25,
+      "budget": 28,
+      "support": 29,
+      "competitor": 24
+    }
+  },
+  "chi2": 3.831,
+  "graus_liberdade": 10,
+  "chi2_critico_p005": 18.31,
+  "independentes": true,
+  "concordancia_pct": 16.2,
+  "concordancia_acaso_pct": 16.7,
+  "distribuicao_real_feedback": {
+    "switched to competitor": 136,
+    "missing features": 155,
+    "too expensive": 161
+  },
+  "distribuicao_reason_code": {
+    "pricing": 91,
+    "support": 104,
+    "budget": 104,
+    "unknown": 95,
+    "features": 114,
+    "competitor": 92
+  },
+  "refund_medio_por_motivo": {
+    "switched to competitor": 17.82,
+    "missing features": 15.85,
+    "too expensive": 14.62
+  }
+}

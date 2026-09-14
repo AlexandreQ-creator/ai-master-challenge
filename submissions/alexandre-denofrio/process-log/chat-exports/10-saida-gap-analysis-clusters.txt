@@ -1,0 +1,74 @@
+==========================================================================
+GAP ANALYSIS POR CLUSTERIZAÇÃO — o que os cortes manuais não capturaram
+==========================================================================
+
+Contas com vetor de features completo: 500
+Features (7): tenure_dias, mrr, uso_medio, n_features_distintas, taxa_erro, n_tickets, tempo_resolucao_h
+
+Escolha de k por silhouette score (não arbitrado):
+  k=2: 0.1260
+  k=3: 0.1266
+  k=4: 0.1348
+  k=5: 0.1290
+  k=6: 0.1371  <-- escolhido
+  k=7: 0.1318
+  k=8: 0.1307
+
+Taxa de churn GLOBAL (baseline do dataset fornecido): 22.0%
+
+--------------------------------------------------------------------------
+PERFIL DE CADA CLUSTER
+--------------------------------------------------------------------------
+
+Cluster 2 — 102 contas | churn 29.4% (+7.4pp vs. global) | MRR total $248,487
+   tenure médio: 3144 dias | MRR médio: $2,436 | uso médio: 9.93
+   features distintas: 31.8 | taxa erro: 6.00% | tickets: 4.5 | resolução: 39.0h
+   dominantes: FinTech (24.5%) / partner (20.6%) / Pro (37.3%)
+
+Cluster 1 — 95 contas | churn 26.3% (+4.3pp vs. global) | MRR total $168,168
+   tenure médio: 1736 dias | MRR médio: $1,770 | uso médio: 10.19
+   features distintas: 30.1 | taxa erro: 5.00% | tickets: 2.8 | resolução: 21.8h
+   dominantes: FinTech (25.3%) / event (26.3%) / Basic (41.1%)
+
+Cluster 0 — 106 contas | churn 21.7% (-0.3pp vs. global) | MRR total $134,384
+   tenure médio: 956 dias | MRR médio: $1,268 | uso médio: 10.34
+   features distintas: 23.8 | taxa erro: 4.00% | tickets: 5.1 | resolução: 36.1h
+   dominantes: FinTech (22.6%) / ads (26.4%) / Pro (39.6%)
+
+Cluster 3 — 99 contas | churn 17.2% (-4.8pp vs. global) | MRR total $177,800
+   tenure médio: 883 dias | MRR médio: $1,796 | uso médio: 9.64
+   features distintas: 23.6 | taxa erro: 7.00% | tickets: 4.5 | resolução: 32.9h
+   dominantes: DevTools (28.3%) / organic (24.2%) / Pro (44.4%)
+
+Cluster 5 — 71 contas | churn 15.5% (-6.5pp vs. global) | MRR total $124,685
+   tenure médio: 1248 dias | MRR médio: $1,756 | uso médio: 9.99
+   features distintas: 29.2 | taxa erro: 6.00% | tickets: 2.4 | resolução: 52.3h
+   dominantes: Cybersecurity (25.4%) / partner (25.4%) / Basic (42.3%)
+
+Cluster 4 — 27 contas | churn 14.8% (-7.2pp vs. global) | MRR total $384,866
+   tenure médio: 1544 dias | MRR médio: $14,254 | uso médio: 9.97
+   features distintas: 29.0 | taxa erro: 6.00% | tickets: 4.6 | resolução: 36.3h
+   dominantes: FinTech (33.3%) / organic (25.9%) / Enterprise (40.7%)
+
+--------------------------------------------------------------------------
+GAP ANALYSIS — clusters vs. os cortes manuais já feitos no README
+--------------------------------------------------------------------------
+
+Spread entre o cluster de maior e menor churn: 14.6pp
+  pior:  Cluster 2 (29.4%, 102 contas)
+  melhor: Cluster 4 (14.8%, 27 contas)
+
+Comparação — spread dos cortes manuais já reportados no README:
+  indústria × canal (DevTools/event vs. Cybersecurity/partner): 38.5pp
+  plano isolado (Basic/Pro/Enterprise): ~0.2pp (não discrimina)
+
+Distribuição de MRR por cluster (total $1,238,390):
+  Cluster 4: $384,866 (31.1% do MRR) | churn 14.8%
+  Cluster 2: $248,487 (20.1% do MRR) | churn 29.4%
+  Cluster 3: $177,800 (14.4% do MRR) | churn 17.2%
+  Cluster 1: $168,168 (13.6% do MRR) | churn 26.3%
+  Cluster 0: $134,384 (10.9% do MRR) | churn 21.7%
+  Cluster 5: $124,685 (10.1% do MRR) | churn 15.5%
+
+Dados salvos para consulta: ../process-log/gap-analysis-clusters.json
+==========================================================================
