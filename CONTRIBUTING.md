@@ -44,7 +44,7 @@ submissions/seu-nome/
 
 ## Nunca usou git?
 
-Se você está aprendendo agora, use IA para te ajudar. Sério — pedir pro Claude ou ChatGPT te guiar pelo processo de fork, branch e PR é exatamente o tipo de coisa que um AI Master faz. Isso já é parte do teste.
+Se você está aprendendo agora, use IA para te ajudar. Sério — pedir para o Claude ou ChatGPT te guiar pelo processo de fork, branch e PR é exatamente o tipo de coisa que um AI Master faz. Isso já é parte do teste.
 
 ---
 

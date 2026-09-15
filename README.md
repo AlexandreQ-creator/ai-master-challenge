@@ -43,7 +43,7 @@ Nós já rodamos cada challenge em múltiplos modelos de IA (Claude, GPT, Gemini
 
 Parecido com o baseline não é suficiente. Esperamos que a sua entrega **supere substancialmente** o que a IA produz sozinha — em profundidade de análise, em julgamento, em qualidade de execução, ou em criatividade da solução.
 
-O valor de um AI Master não é saber pedir pra IA. É saber o que pedir, quando desconfiar, o que ajustar, e o que só um humano com contexto consegue fazer.
+O valor de um AI Master não é saber pedir para a IA. É saber o que pedir, quando desconfiar, o que ajustar, e o que só um humano com contexto consegue fazer.
 
 ### O que NÃO estamos avaliando
 
@@ -66,7 +66,7 @@ O valor de um AI Master não é saber pedir pra IA. É saber o que pedir, quando
 - [**001 — Diagnóstico de Churn**](./challenges/data-001-churn/) · Dados / Analytics
 - [**002 — Redesign de Suporte**](./challenges/process-002-support/) · Operações / CX
 - [**003 — Lead Scorer**](./challenges/build-003-lead-scorer/) · Vendas / RevOps
-- [**004 — Estratégia Social Media**](./challenges/marketing-004-social/) · Marketing
+- [**004 — Estratégia de Mídias Sociais**](./challenges/marketing-004-social/) · Marketing
 
 > Cada desafio tem seu próprio README com contexto completo, links para dados, e critérios de qualidade. Veja o [índice de challenges](./challenges/) para ajuda na escolha.
 
@@ -89,7 +89,7 @@ A submissão é feita **exclusivamente via Pull Request**. Isso faz parte do tes
 3. Abra o PR seguindo as instruções em [CONTRIBUTING.md](./CONTRIBUTING.md)
 4. Leia o [Guia de Submissão](./submission-guide.md) para detalhes sobre o que enviar
 
-> Se você não sabe abrir um Pull Request, esse é um bom momento pra aprender. Um AI Master resolve esse tipo de problema em 10 minutos.
+> Se você não sabe abrir um Pull Request, esse é um bom momento para aprender. Um AI Master resolve esse tipo de problema em 10 minutos.
 
 ---
 
@@ -98,7 +98,7 @@ A submissão é feita **exclusivamente via Pull Request**. Isso faz parte do tes
 **Posso fazer mais de um desafio?**
 Pode, mas preferimos um bem feito do que dois superficiais.
 
-**Posso usar IA pra tudo?**
+**Posso usar IA para tudo?**
 Sim. O ponto não é fazer sem IA. É usar IA melhor do que a média.
 
 **Se eu só colar o problema no ChatGPT e enviar a resposta?**
