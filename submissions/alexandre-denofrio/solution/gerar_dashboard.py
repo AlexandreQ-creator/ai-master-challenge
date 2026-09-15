@@ -8,14 +8,15 @@ para gerar o arquivo uma vez.
 import json
 import sys
 from collections import defaultdict
+from pathlib import Path
 from statistics import mean
 
 sys.stdout.reconfigure(encoding="utf-8")
 
 from gap_analysis_feedback import analisar as analisar_feedback
 
-DATA = "../data"
-OUTPUT = "../dashboard.html"
+DATA = str(Path(__file__).parent.parent / "data")
+OUTPUT = str(Path(__file__).parent.parent / "dashboard.html")
 
 
 from io_comum import to_bool, to_float, to_date

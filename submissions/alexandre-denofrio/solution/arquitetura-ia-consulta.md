@@ -2,7 +2,7 @@
 
 ## Objetivo e escopo
 
-Uma IA de consulta que qualquer pessoa da RavenStack (CS, CEO, Financeiro) usa para
+Uma IA de consulta que qualquer pessoa da RavenStack (CS — *Customer Success* —, CEO, Financeiro) usa para
 perguntar sobre o diagnóstico de churn em linguagem natural — "quais contas de
 DevTools estão em risco?", "qual o MRR da Company_4?", "por que o churn está
 acelerando?" — e recebe uma resposta ancorada nos dados reais, não uma alucinação.
@@ -190,7 +190,7 @@ Esta seção nasce diretamente de um bug real encontrado e corrigido nesta mesma
 ### O que já foi validado (e por quê importa)
 
 Ao revisar `mestre_dados_engine.py` (material trazido pelo Gemini, função
-`mask_pii()`), foi encontrado um bug de mascaramento de PII: a checagem
+`mask_pii()`), foi encontrado um bug de mascaramento de PII (*Personally Identifiable Information*, dado pessoal identificável): a checagem
 `if masked_df[col].dtype == 'object':` nunca era verdadeira no pandas 3.0 (que mudou o
 dtype padrão de string de `object` para `str` nativo) — então o bloco de mascaramento
 **nunca executava**, e e-mail/CPF saíam em texto puro, sem nenhuma transformação. O

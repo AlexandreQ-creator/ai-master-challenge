@@ -13,9 +13,11 @@ from statistics import mean, median
 
 sys.stdout.reconfigure(encoding="utf-8")
 
+from pathlib import Path
+
 from guard_entrada_dados import validar_entrada
 
-DATA = "../data"
+DATA = str(Path(__file__).parent.parent / "data")
 
 _ok, _erros = validar_entrada(pasta_data=DATA, verbose=False)
 if not _ok:

@@ -24,6 +24,7 @@ mesmo número.
 import sys
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
 from statistics import mean, median
 
 sys.stdout.reconfigure(encoding="utf-8")
@@ -34,9 +35,9 @@ from openpyxl.utils import get_column_letter
 
 from guard_entrada_dados import validar_entrada
 
-DATA = "../data"
-OUTPUT_XLSX = "../RavenStack_Diagnostico_Churn.xlsx"
-OUTPUT_MD = "../RavenStack_Diagnostico_Churn.md"
+DATA = str(Path(__file__).parent.parent / "data")
+OUTPUT_XLSX = str(Path(__file__).parent.parent / "RavenStack_Diagnostico_Churn.xlsx")
+OUTPUT_MD = str(Path(__file__).parent.parent / "RavenStack_Diagnostico_Churn.md")
 
 HEADER_FILL = PatternFill(start_color="1F2937", end_color="1F2937", fill_type="solid")
 HEADER_FONT = Font(color="FFFFFF", bold=True)

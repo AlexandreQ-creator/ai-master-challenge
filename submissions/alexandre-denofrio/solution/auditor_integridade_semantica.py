@@ -48,11 +48,13 @@ from itertools import combinations
 
 sys.stdout.reconfigure(encoding="utf-8")
 
+from pathlib import Path
+
 from gerar_excel import load
 from guard_entrada_dados import SCHEMA_ESPERADO, validar_entrada
 
-DATA = "../data"
-OUTPUT_JSON = "../process-log/auditoria-integridade-semantica.json"
+DATA = str(Path(__file__).parent.parent / "data")
+OUTPUT_JSON = str(Path(__file__).parent.parent / "process-log" / "auditoria-integridade-semantica.json")
 
 # Uma coluna é tratada como categórica se tiver entre 2 e MAX_CARDINALIDADE
 # valores distintos. Acima disso é identificador ou medida contínua.

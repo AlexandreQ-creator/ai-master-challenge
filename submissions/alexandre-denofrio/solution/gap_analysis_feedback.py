@@ -26,11 +26,13 @@ from collections import Counter, defaultdict
 
 sys.stdout.reconfigure(encoding="utf-8")
 
+from pathlib import Path
+
 from gerar_excel import load, to_float
 from guard_entrada_dados import validar_entrada
 
-DATA = "../data"
-OUTPUT_JSON = "../process-log/gap-analysis-feedback.json"
+DATA = str(Path(__file__).parent.parent / "data")
+OUTPUT_JSON = str(Path(__file__).parent.parent / "process-log" / "gap-analysis-feedback.json")
 
 # Mapeamento "óbvio" texto -> código: o que um sistema de CRM funcionando
 # produziria. Usado só para medir concordância, não para corrigir o dado.
