@@ -1,2 +1,4 @@
 openpyxl
 scikit-learn
+pandas
+numpy
