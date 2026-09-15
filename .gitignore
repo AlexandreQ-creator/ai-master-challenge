@@ -14,3 +14,11 @@ datasets/
 
 # Submissions (if candidates fork)
 submissions/
+
+# Local process history — not part of the submission, kept for reference only
+__pycache__/
+archive/
+vaga-g4-ai-master.md
+skill-g4-ai-master-churn.md
+skill-mestre-analise-dados.md
+status-pasta-claude-code.md
