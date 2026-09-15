@@ -21,11 +21,12 @@ mesmo número.
 Único pré-requisito: `pip install openpyxl` (uma biblioteca, sem pandas).
 """
 
-import csv
 import sys
 from collections import defaultdict
 from datetime import datetime
 from statistics import mean, median
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
@@ -43,26 +44,12 @@ TITLE_FONT = Font(bold=True, size=14)
 RISK_FILL = PatternFill(start_color="FEE2E2", end_color="FEE2E2", fill_type="solid")
 
 
+from io_comum import to_bool, to_float, to_date
+from io_comum import load as _load_de
+
+
 def load(fname):
-    with open(f"{DATA}/{fname}", encoding="utf-8") as fh:
-        return list(csv.DictReader(fh))
-
-
-def to_bool(v):
-    return str(v).strip().lower() == "true"
-
-
-def to_float(v, default=None):
-    try:
-        return float(v)
-    except (ValueError, TypeError):
-        return default
-
-
-def to_date(v):
-    if not v:
-        return None
-    return datetime.strptime(v[:10], "%Y-%m-%d")
+    return _load_de(fname, DATA)
 
 
 # ---------------------------------------------------------------------------

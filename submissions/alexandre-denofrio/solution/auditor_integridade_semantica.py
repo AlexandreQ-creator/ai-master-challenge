@@ -46,6 +46,8 @@ import sys
 from collections import defaultdict
 from itertools import combinations
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from gerar_excel import load
 from guard_entrada_dados import SCHEMA_ESPERADO, validar_entrada
 

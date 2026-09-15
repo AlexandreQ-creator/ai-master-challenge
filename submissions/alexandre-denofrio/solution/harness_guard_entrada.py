@@ -25,6 +25,8 @@ import sys
 import tempfile
 import time
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from guard_entrada_dados import validar_entrada
 
 

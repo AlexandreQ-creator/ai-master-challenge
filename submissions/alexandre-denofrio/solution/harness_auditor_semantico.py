@@ -25,6 +25,8 @@ import random
 import sys
 import time
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from auditor_integridade_semantica import (
     auditar,
     diagnosticar_dataset,

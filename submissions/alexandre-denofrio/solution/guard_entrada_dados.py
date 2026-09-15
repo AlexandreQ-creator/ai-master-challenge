@@ -35,6 +35,8 @@ import re
 import sys
 from collections import defaultdict
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 DATA = "../data"
 
 # Schema esperado: nome do arquivo -> conjunto de colunas obrigatórias.

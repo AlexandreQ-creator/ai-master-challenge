@@ -21,7 +21,10 @@ Uso: python harness_auditoria_submissao.py
 """
 
 import re
+import sys
 import time
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 
 SUBMISSAO = ".."  # solution/ -> raiz da pasta da submissão

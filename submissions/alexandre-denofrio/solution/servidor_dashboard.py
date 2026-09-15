@@ -41,6 +41,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 PORTA = 8735
 AQUI = Path(__file__).resolve().parent          # solution/
 SUBMISSAO = AQUI.parent                          # pasta raiz da submissão

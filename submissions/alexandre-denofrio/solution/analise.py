@@ -7,11 +7,11 @@ não aqui — este script só produz os números verificáveis que sustentam o
 relatório.
 """
 
-import csv
 import sys
 from collections import defaultdict
-from datetime import datetime
 from statistics import mean, median
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 from guard_entrada_dados import validar_entrada
 
@@ -26,26 +26,12 @@ if not _ok:
     sys.exit(1)
 
 
+from io_comum import to_bool, to_float, to_date
+from io_comum import load as _load_de
+
+
 def load(fname):
-    with open(f"{DATA}/{fname}", encoding="utf-8") as fh:
-        return list(csv.DictReader(fh))
-
-
-def to_bool(v):
-    return str(v).strip().lower() == "true"
-
-
-def to_float(v, default=None):
-    try:
-        return float(v)
-    except (ValueError, TypeError):
-        return default
-
-
-def to_date(v):
-    if not v:
-        return None
-    return datetime.strptime(v[:10], "%Y-%m-%d")
+    return _load_de(fname, DATA)
 
 
 accounts = load("ravenstack_accounts.csv")

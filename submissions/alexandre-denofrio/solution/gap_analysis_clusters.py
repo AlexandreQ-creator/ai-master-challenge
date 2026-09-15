@@ -47,6 +47,8 @@ import sys
 from collections import defaultdict
 from statistics import mean
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from gerar_excel import load, to_bool, to_float, to_date
 from guard_entrada_dados import validar_entrada
 

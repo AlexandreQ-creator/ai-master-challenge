@@ -28,6 +28,8 @@ import subprocess
 import sys
 import time
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from gerar_excel import compute_metrics
 from openpyxl import load_workbook
 

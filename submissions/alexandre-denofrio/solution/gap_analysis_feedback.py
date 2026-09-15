@@ -24,6 +24,8 @@ import json
 import sys
 from collections import Counter, defaultdict
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 from gerar_excel import load, to_float
 from guard_entrada_dados import validar_entrada
 

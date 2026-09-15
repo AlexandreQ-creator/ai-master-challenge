@@ -5,11 +5,12 @@ qualquer navegador, sem servidor, sem instalar nada além do Python usado
 para gerar o arquivo uma vez.
 """
 
-import csv
 import json
+import sys
 from collections import defaultdict
-from datetime import datetime
 from statistics import mean
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 from gap_analysis_feedback import analisar as analisar_feedback
 
@@ -17,26 +18,12 @@ DATA = "../data"
 OUTPUT = "../dashboard.html"
 
 
+from io_comum import to_bool, to_float, to_date
+from io_comum import load as _load_de
+
+
 def load(fname):
-    with open(f"{DATA}/{fname}", encoding="utf-8") as fh:
-        return list(csv.DictReader(fh))
-
-
-def to_bool(v):
-    return str(v).strip().lower() == "true"
-
-
-def to_float(v, default=None):
-    try:
-        return float(v)
-    except (ValueError, TypeError):
-        return default
-
-
-def to_date(v):
-    if not v:
-        return None
-    return datetime.strptime(v[:10], "%Y-%m-%d")
+    return _load_de(fname, DATA)
 
 
 def build_data():

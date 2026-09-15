@@ -25,6 +25,8 @@ import time
 import urllib.error
 import urllib.request
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 PORTA = 8735
 BASE = f"http://127.0.0.1:{PORTA}"
 
