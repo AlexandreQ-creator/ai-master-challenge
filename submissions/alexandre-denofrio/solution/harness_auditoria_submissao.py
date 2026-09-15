@@ -1,9 +1,10 @@
 """
 Harness de auditoria final — Challenge 001 (Diagnóstico de Churn).
 
-Mesmo padrão de `harness-mestre-dados.py` (raiz do repo, corrigido nesta
-sessão): cada cenário roda um teste real contra os artefatos da submissão,
-com asserts de verdade — o veredito final é condicionado ao resultado real
+Mesmo padrão de `harness-mestre-dados.py` (nesta mesma pasta `solution/`,
+corrigido e movido para cá nesta sessão): cada cenário roda um teste real
+contra os artefatos da submissão, com asserts de verdade — o veredito final
+é condicionado ao resultado real
 dos testes, não uma mensagem fixa (essa foi exatamente a lição do bug de
 PII encontrado naquele harness: um "sucesso" que não checa nada não é
 garantia, é decoração).

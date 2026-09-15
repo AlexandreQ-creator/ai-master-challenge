@@ -196,10 +196,9 @@ No lugar do modelo, escolhi um diferencial orientado a **escalabilidade operacio
 ## Evidências
 
 - [x] Chat export — não só a narrativa do Process Log acima, mas 15 arquivos de saída real de execução em `process-log/chat-exports/` (índice explicando cada um em `process-log/chat-exports/README.md`): saída completa de `analise.py`, self-test da IA de consulta, teste unitário do Auditor de Contexto Limpo, o harness de segurança PII rodando 5/5 depois do fix, o harness de auditoria final (13/13 contra o brief oficial do GitHub), o auditor de integridade semântica e seu harness (6/6), o servidor do dashboard e seu harness (8/8) + a IA de consulta respondendo sobre o próprio resultado dessa auditoria
-- [ ] Screenshots das conversas com IA
-- [ ] Screen recording do workflow
 - [x] Git history — branch `submission/alexandre-denofrio`, commits publicados, PR aberto: [github.com/Gestao-Quatro-Ponto-Zero/ai-master-challenge/pull/122](https://github.com/Gestao-Quatro-Ponto-Zero/ai-master-challenge/pull/122)
-- [ ] Outro: _____________
+- [ ] Screenshots das conversas com IA — **não usado por escolha, não por lacuna**: o `submission-guide.md` aceita "um ou combine", e chat export + git history acima já dão evidência objetiva e reproduzível do processo, sem depender de captura manual de tela
+- [ ] Screen recording do workflow — não usado pelo mesmo motivo acima
 
 ---
 
